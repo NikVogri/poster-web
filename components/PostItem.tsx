@@ -7,7 +7,7 @@ export default function PostItem({ title, excerpt, slug }) {
     bg: "gray.50",
   };
   return (
-    <Link href={slug}>
+    <Link href={`/posts/${slug}`}>
       <a>
         <Box
           mb="10px"
