@@ -3,7 +3,6 @@ import axios from "axios";
 import PostItem from "../components/PostItem";
 
 const Home = ({ posts }) => {
-  console.log(posts);
   return (
     <>
       <Text my="30px" fontWeight="bold" fontSize="3xl">
