@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import createToast from "../../helpers/toast";
 
 interface User {
   username: string;
@@ -59,9 +60,19 @@ const AuthProvider = ({ children }) => {
         }
       );
       setUser(user.data.user);
+      createToast(
+        "Authentication successfull",
+        "User is successfully logged in",
+        "success"
+      );
       router.push("/");
     } catch (err) {
-      console.log("logout err", err);
+      createToast(
+        "Authentication Failed",
+        "Could not log you in, please make sure you enter the correct information",
+        "error"
+      );
+      console.log("logout err", err.message);
     } finally {
       setUserLoading(false);
     }
@@ -77,9 +88,15 @@ const AuthProvider = ({ children }) => {
         }
       );
       setUser(null);
+      createToast("Logged out", "User is successfully logged out", "success");
       router.push("/");
     } catch (err) {
       console.log("logout err", err);
+      createToast(
+        "Authentication Failed",
+        "Could not log you out, please try again",
+        "error"
+      );
     }
   };
 
