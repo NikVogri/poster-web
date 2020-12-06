@@ -67,12 +67,7 @@ const AuthProvider = ({ children }) => {
       );
       router.push("/");
     } catch (err) {
-      createToast(
-        "Authentication Failed",
-        "Could not log you in, please make sure you enter the correct information",
-        "error"
-      );
-      console.log("logout err", err.message);
+      createToast("Authentication Failed", err.response.data.error, "error");
     } finally {
       setUserLoading(false);
     }

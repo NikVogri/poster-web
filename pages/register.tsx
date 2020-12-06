@@ -13,6 +13,7 @@ import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import axios from "axios";
 import { useRouter } from "next/router";
+import createToast from "../helpers/toast";
 
 export default function register() {
   const [submitting, setSubmitting] = useState(false);
@@ -44,12 +45,14 @@ export default function register() {
         { ...e }
       );
 
-      if (!res.data.success) {
-        console.log(res.data.msg);
-      }
-
       router.push("/login");
+      createToast(
+        "User created successfully",
+        "User created successfully, please log in now",
+        "success"
+      );
     } catch (err) {
+      createToast("User cannot be created", err.response.data.error, "error");
     } finally {
       setSubmitting(false);
     }
