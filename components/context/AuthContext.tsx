@@ -59,6 +59,7 @@ const AuthProvider = ({ children }) => {
           withCredentials: true,
         }
       );
+      console.log("here", user);
       setUser(user.data.user);
       createToast(
         "Authentication successfull",
