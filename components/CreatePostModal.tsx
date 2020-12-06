@@ -9,13 +9,12 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import axios from "axios";
 
@@ -27,6 +26,7 @@ const postValidationSchema = Yup.object().shape({
 });
 
 const CreatePostModal = ({ openModal, closeModal }) => {
+  const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
@@ -43,12 +43,21 @@ const CreatePostModal = ({ openModal, closeModal }) => {
   };
 
   const handlePostSubmit = async (e: FormikValues) => {
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/posts`,
-      { ...e },
-      { withCredentials: true }
-    );
-    console.log(res);
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/posts`,
+        { ...e },
+        { withCredentials: true }
+      );
+      console.log(res.data);
+      setLoading(false);
+      onClose();
+    } catch (err) {
+      console.log("handleSubmit err", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -60,7 +69,7 @@ const CreatePostModal = ({ openModal, closeModal }) => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
+          <ModalHeader>Create a new post</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <Formik
@@ -103,16 +112,18 @@ const CreatePostModal = ({ openModal, closeModal }) => {
                     </FormControl>
                   )}
                 </Field>
-                <Button colorScheme="blue" mr={3} type="submit">
-                  Create
+                <Button
+                  colorScheme="blue"
+                  mr={3}
+                  mt={4}
+                  type="submit"
+                  isLoading={loading}
+                >
+                  Create Post
                 </Button>
               </Form>
             </Formik>
           </ModalBody>
-
-          <ModalFooter>
-            <Button onClick={closeModalHandler}>Cancel</Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
