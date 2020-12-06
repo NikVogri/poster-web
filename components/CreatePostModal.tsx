@@ -14,11 +14,10 @@ import {
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import * as Yup from "yup";
-import axios from "axios";
 import useApi from "./hooks/useApi";
-import { NotificationContext } from "./context/NotificationContext";
+import createToast from "../helpers/toast";
 
 const postValidationSchema = Yup.object().shape({
   title: Yup.string()
@@ -30,7 +29,6 @@ const postValidationSchema = Yup.object().shape({
 const CreatePostModal = ({ openModal, closeModal }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { loading, postData } = useApi();
-  const { addNotification } = useContext(NotificationContext);
 
   useEffect(() => {
     if (!isOpen && openModal) {
@@ -55,7 +53,7 @@ const CreatePostModal = ({ openModal, closeModal }) => {
     console.log(res);
     if (res.data.success) {
       onClose();
-      addNotification(
+      createToast(
         "Post created",
         "Your post has been successfully created",
         "success"

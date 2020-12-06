@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import createToast from "../../helpers/toast";
 
 const useApi = () => {
   const [data, setData] = useState(null);
@@ -14,6 +15,11 @@ const useApi = () => {
     } catch (err) {
       setData(null);
       console.log("error fetching", err);
+      createToast(
+        "Something went wrong",
+        "Could not complete your request, please try again later",
+        "error"
+      );
     } finally {
       setLoading(false);
     }
@@ -35,6 +41,11 @@ const useApi = () => {
     } catch (err) {
       setData(null);
       console.log("error posting", err);
+      createToast(
+        "Something went wrong",
+        "Could not complete your request, please try again later",
+        "error"
+      );
     } finally {
       setLoading(false);
     }
