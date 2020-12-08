@@ -39,6 +39,7 @@ const AuthProvider = ({ children }) => {
       );
 
       if (user) {
+        console.log(user);
         setUser(user.data.user);
       }
     } catch (err) {

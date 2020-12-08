@@ -40,8 +40,8 @@ const NewPostIcon = (
     <title>plus-circle</title>
     <g fill="none">
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm1-11a1 1 0 1 0-2 0v2H7a1 1 0 1 0 0 2h2v2a1 1 0 1 0 2 0v-2h2a1 1 0 1 0 0-2h-2V7z"
         fill="#303030"
       ></path>
@@ -61,9 +61,9 @@ const LogoutIcon = (
       <path
         d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1"
         stroke="#374151"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       ></path>
     </g>
   </svg>
@@ -82,7 +82,6 @@ const NavItem = ({ name, to }) => {
 const Navigation = () => {
   const { user, logout } = useContext(AuthContext) as any;
   const [openModal, setOpenModal] = useState(false);
-  console.log(user);
 
   return (
     <>

@@ -50,7 +50,6 @@ const CreatePostModal = ({ openModal, closeModal }) => {
       true
     );
 
-    console.log(res);
     if (res.data.success) {
       onClose();
       createToast(
