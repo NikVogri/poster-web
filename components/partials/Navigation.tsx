@@ -16,6 +16,7 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import CreatePostModal from "../CreatePostModal";
 import {} from "@chakra-ui/icons";
+import Avatar from "../Avatar";
 
 const UserIcon = (
   <svg
@@ -110,19 +111,7 @@ const Navigation = () => {
             {user && (
               <Menu>
                 <MenuButton as={Button} background="#fff">
-                  <Flex alignItems="center">
-                    <Text mr={2}>{user.username}</Text>
-                    <Image
-                      boxSize="35px"
-                      rounded="full"
-                      objectFit="cover"
-                      src={
-                        user.image ||
-                        `https://ui-avatars.com/api/?name=${user.username}&color=7F9CF5&background=EBF4FF`
-                      }
-                      alt={user.username}
-                    />
-                  </Flex>
+                  <Avatar name={user.username} size="sm" withUsername />
                 </MenuButton>
                 <MenuList>
                   <MenuItem>

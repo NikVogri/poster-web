@@ -2,45 +2,28 @@ import { Box, Flex, Text, Link as LinkUI, Image } from "@chakra-ui/react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import axios from "axios";
 import Link from "next/link";
-import { useContext } from "react";
-import { AuthContext } from "../../components/context/AuthContext";
 import PostControlls from "../../components/post/PostControlls";
+import ReactHtmlParser from "react-html-parser";
+import Avatar from "../../components/Avatar";
 
 export default function post({ post }) {
-  const { user } = useContext(AuthContext);
-  console.log(user);
-  console.log(post);
   return (
     <Box mt={4} shadow="lg" py={8} px={5}>
       <Flex align="center">
         <Text fontSize="4xl" fontWeight="bold" mr={3}>
           {post.title}
         </Text>
-        <PostControlls author={post.User} />
+        <PostControlls author={post.User} title={post.title} slug={post.slug} />
       </Flex>
-      <Text mt={4} mb={8}>
-        {post.content}
-      </Text>
+      <Box mt={4} mb={8}>
+        {ReactHtmlParser(post.content)}
+      </Box>
 
       <Flex justify="space-between">
         <Box>rating</Box>
         <Link href={`/users/${post.User.slug}`}>
           <LinkUI>
-            <Flex align="center">
-              <Image
-                height={30}
-                width={30}
-                rounded="full"
-                mr={2}
-                src={
-                  post.User.avatar ||
-                  `https://ui-avatars.com/api/?name=${post.User.username}&color=7F9CF5&background=EBF4FF`
-                }
-                alt={post.User.username}
-              />
-
-              {post.User.username}
-            </Flex>
+            <Avatar name={post.User.username} size="sm" withUsername />
           </LinkUI>
         </Link>
       </Flex>
