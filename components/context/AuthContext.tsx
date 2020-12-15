@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import createToast from "../../helpers/toast";
+import useApi from "../hooks/useApi";
 
 interface User {
   username: string;
@@ -16,6 +17,8 @@ interface AuthContextInterface {
   userLoading: boolean;
 }
 
+const URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth`;
+
 export const AuthContext = createContext<AuthContextInterface>({
   user: { username: "", email: "", id: 0 },
   logout: () => {},
@@ -26,66 +29,58 @@ export const AuthContext = createContext<AuthContextInterface>({
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState<User>(null);
   const [userLoading, setUserLoading] = useState(false);
+  const { api } = useApi();
 
   const router = useRouter();
 
   const getUser = async () => {
     try {
-      const user = await axios.get(
+      const res = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/me`,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
 
-      if (user) {
-        console.log(user);
-        setUser(user.data.user);
+      if (res.data.user) {
+        setUser(res.data.user);
       }
-    } catch (err) {
-      console.log("isAuth err", err);
-    }
+    } catch (err) {}
   };
 
   const login = async (email: string, password: string) => {
-    try {
-      setUserLoading(true);
-      const user = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/login`,
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      console.log("here", user);
-      setUser(user.data.user);
+    setUserLoading(true);
+
+    const data = {
+      email,
+      password,
+    };
+
+    const user = await api(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/login`,
+      "post",
+      true,
+      data
+    );
+
+    if (user) {
+      setUser(user.user);
       createToast(
         "Authentication successfull",
         "User is successfully logged in",
         "success"
       );
       router.push("/");
-    } catch (err) {
-      createToast("Authentication Failed", err.response.data.error, "error");
-    } finally {
-      setUserLoading(false);
     }
+
+    setUserLoading(false);
   };
 
   const logout = async () => {
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/logout`,
-        {},
-        {
-          withCredentials: true,
-        }
-      );
+      await api(`${URL}/logout`, "post", true);
+
       setUser(null);
       createToast("Logged out", "User is successfully logged out", "success");
+
       router.push("/");
     } catch (err) {
       console.log("logout err", err);

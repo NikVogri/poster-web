@@ -23,7 +23,9 @@ const Home = ({ posts }) => {
 };
 
 export const getStaticProps = async () => {
-  const posts = await axios.get("http://localhost:5000/api/v1/posts");
+  const posts = await axios.get(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/posts`
+  );
   return {
     props: { posts: posts.data.posts },
     revalidate: 1,
