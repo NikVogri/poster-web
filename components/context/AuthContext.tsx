@@ -14,6 +14,8 @@ interface AuthContextInterface {
   user: User;
   logout: () => void;
   login: (email: string, password: string) => void;
+  forgotPassword: (email: string) => void;
+  resetPassword: (password: string, token: string) => void;
   userLoading: boolean;
 }
 
@@ -23,6 +25,8 @@ export const AuthContext = createContext<AuthContextInterface>({
   user: { username: "", email: "", id: 0 },
   logout: () => {},
   login: () => {},
+  forgotPassword: () => {},
+  resetPassword: () => {},
   userLoading: false,
 });
 
@@ -92,12 +96,56 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const forgotPassword = async (email: string) => {
+    try {
+      const res = await api(`${URL}/forgot-password`, "post", false, { email });
+
+      if (res.success) {
+        createToast(
+          "Email Sent",
+          "Email has been sent, please also check your spam folder",
+          "success"
+        );
+      }
+    } catch (err) {
+      if (err.response?.data.msg) {
+        createToast("Could not send email", err.response.data.msg, "error");
+        return;
+      }
+    }
+  };
+
+  const resetPassword = async (password: string, token: string) => {
+    const res = await api(`${URL}/reset-password`, "post", false, {
+      password,
+      token,
+    });
+
+    if (res?.success) {
+      createToast(
+        "Password successfully changed!",
+        "Password changed successfully",
+        "success"
+      );
+      return res;
+    }
+  };
+
   useEffect(() => {
     getUser();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, logout, login, userLoading }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        logout,
+        login,
+        userLoading,
+        forgotPassword,
+        resetPassword,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
