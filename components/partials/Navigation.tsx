@@ -14,7 +14,7 @@ import {
 import Link from "next/link";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import CreatePostModal from "../CreatePostModal";
+import CreatePageModal from "../CreatePageModal";
 import {} from "@chakra-ui/icons";
 import Avatar from "../Avatar";
 
@@ -31,7 +31,7 @@ const UserIcon = (
   </svg>
 );
 
-const NewPostIcon = (
+const NewPageIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="16"
@@ -97,7 +97,7 @@ const Navigation = () => {
                   margin="0"
                   cursor="pointer"
                 >
-                  POSTER
+                  PAGER
                 </Text>
               </Link>
             </Box>
@@ -119,8 +119,8 @@ const Navigation = () => {
                     <Text ml={2}>Profile</Text>
                   </MenuItem>
                   <MenuItem onClick={() => setOpenModal(true)}>
-                    <i>{NewPostIcon}</i>
-                    <Text ml={2}>Create new post</Text>
+                    <i>{NewPageIcon}</i>
+                    <Text ml={2}>Create new page</Text>
                   </MenuItem>
                   <MenuItem onClick={logout}>
                     <i>{LogoutIcon}</i>
@@ -133,7 +133,7 @@ const Navigation = () => {
         </Container>
         <hr />
       </Box>
-      <CreatePostModal
+      <CreatePageModal
         openModal={openModal}
         closeModal={() => setOpenModal(false)}
       />

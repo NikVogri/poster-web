@@ -24,13 +24,13 @@ import useApi from "./hooks/useApi";
 import createToast from "../helpers/toast";
 import { useRouter } from "next/router";
 
-const postValidationSchema = Yup.object().shape({
+const pageValidationSchema = Yup.object().shape({
   title: Yup.string()
     .max(255, "Title can't be longer than 255 characters")
     .required("Title is required"),
 });
 
-const CreatePostModal = ({ openModal, closeModal }) => {
+const CreatePageModal = ({ openModal, closeModal }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [content, setContent] = useState("");
   const { loading, api } = useApi();
@@ -49,9 +49,9 @@ const CreatePostModal = ({ openModal, closeModal }) => {
     closeModal();
   };
 
-  const handlePostSubmit = async (e: FormikValues) => {
+  const handlePageSubmit = async (e: FormikValues) => {
     const res = await api(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/posts`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages`,
       "post",
       true,
       { ...e, content }
@@ -60,12 +60,12 @@ const CreatePostModal = ({ openModal, closeModal }) => {
     if (res.success) {
       onClose();
       createToast(
-        "Post created",
-        "Your post has been successfully created",
+        "Page created",
+        "Your page has been successfully created",
         "success"
       );
 
-      router.push(`/posts/${res.post.slug}`);
+      router.push(`/pages/${res.post.slug}`);
     }
   };
 
@@ -78,13 +78,13 @@ const CreatePostModal = ({ openModal, closeModal }) => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create a new post</ModalHeader>
+          <ModalHeader>Create a new page</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <Formik
               initialValues={{ title: "", content: "" }}
-              validationSchema={postValidationSchema}
-              onSubmit={handlePostSubmit}
+              validationSchema={pageValidationSchema}
+              onSubmit={handlePageSubmit}
             >
               <Form>
                 <Field name="title">
@@ -129,7 +129,7 @@ const CreatePostModal = ({ openModal, closeModal }) => {
                   type="submit"
                   isLoading={loading}
                 >
-                  Create Post
+                  Create Page
                 </Button>
               </Form>
             </Formik>
@@ -140,4 +140,4 @@ const CreatePostModal = ({ openModal, closeModal }) => {
   );
 };
 
-export default CreatePostModal;
+export default CreatePageModal;

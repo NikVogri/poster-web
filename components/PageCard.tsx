@@ -2,7 +2,7 @@ import { Box, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 
-export default function PostItem({ title, excerpt, slug }) {
+export default function PageItem({ title, excerpt, slug }) {
   const hoverStyle = {
     bg: "gray.50",
   };

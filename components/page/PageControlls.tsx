@@ -16,7 +16,7 @@ import createToast from "../../helpers/toast";
 import { AuthContext } from "../context/AuthContext";
 import useApi from "../hooks/useApi";
 
-export default function PostControlls({ author, title, slug }) {
+export default function PageControlls({ author, title, slug }) {
   const { user } = useContext(AuthContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { api } = useApi();

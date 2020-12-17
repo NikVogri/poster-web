@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { AuthContext } from "../components/context/AuthContext";
+import { Router } from "next/router";
 
 const loginValidationSchema = Yup.object().shape({
   email: Yup.string()
@@ -27,7 +28,7 @@ const forgotPassValidationSchema = Yup.object().shape({
 
 const login = () => {
   const { login, userLoading, forgotPassword } = useContext(AuthContext);
-  // const [loadingForgotPass, setLoadingForgotPass] = useState(false);
+  const [loadingForgotPass, setLoadingForgotPass] = useState(false);
 
   const [showForgotPasswordForm, setForgotPasswordForm] = useState(false);
 
@@ -35,8 +36,10 @@ const login = () => {
     login(e.email, e.password);
   };
 
-  const handleForgotPassSubmit = (e: FormikValues) => {
-    forgotPassword(e.email);
+  const handleForgotPassSubmit = async (e: FormikValues) => {
+    setLoadingForgotPass(true);
+    await forgotPassword(e.email);
+    setLoadingForgotPass(false);
   };
 
   if (showForgotPasswordForm) {
@@ -74,7 +77,7 @@ const login = () => {
               colorScheme="teal"
               type="submit"
               width="100%"
-              isLoading={userLoading}
+              isLoading={loadingForgotPass}
             >
               Send Email
             </Button>

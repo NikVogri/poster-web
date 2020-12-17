@@ -107,6 +107,8 @@ const AuthProvider = ({ children }) => {
           "success"
         );
       }
+
+      router.push("/");
     } catch (err) {
       if (err.response?.data.msg) {
         createToast("Could not send email", err.response.data.msg, "error");

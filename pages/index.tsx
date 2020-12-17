@@ -1,20 +1,20 @@
 import { Box, Text } from "@chakra-ui/react";
 import axios from "axios";
-import PostItem from "../components/PostItem";
+import PageCard from "../components/PageCard";
 
-const Home = ({ posts }) => {
+const Home = ({ pages }) => {
   return (
     <>
       <Text my="30px" fontWeight="bold" fontSize="3xl">
-        Posts
+        My Pages
       </Text>
       <Box>
-        {posts.map((post) => (
-          <PostItem
-            key={post.id}
-            excerpt={post.content.slice(0, 100)}
-            title={post.title}
-            slug={post.slug || ""}
+        {pages.map((page) => (
+          <PageCard
+            key={page.id}
+            excerpt={page.content.slice(0, 100)}
+            title={page.title}
+            slug={page.slug || ""}
           />
         ))}
       </Box>
@@ -23,13 +23,26 @@ const Home = ({ posts }) => {
 };
 
 export const getStaticProps = async () => {
-  const posts = await axios.get(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/posts`
-  );
-  return {
-    props: { posts: posts.data.posts },
-    revalidate: 1,
-  };
+  try {
+    const user = (await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/me`
+    )) as any;
+
+    if (!user) {
+      throw new Error();
+    }
+
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/${user.id}`
+    );
+
+    return {
+      props: { pages: res.data.pages },
+      revalidate: 1,
+    };
+  } catch (err) {
+    return { props: { pages: [] } };
+  }
 };
 
 export default Home;
