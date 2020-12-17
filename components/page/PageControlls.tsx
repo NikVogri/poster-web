@@ -29,15 +29,15 @@ export default function PageControlls({ author, title, slug }) {
 
   const deleteHandler = async () => {
     const res = await api(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/posts/${slug}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/${slug}`,
       "delete",
       true
     );
 
     if (res.success) {
       createToast(
-        "Successfully deleted your post",
-        "Your post is now removed",
+        "Successfully deleted your page",
+        "Your page is now removed",
         "success"
       );
       router.push("/");
@@ -54,7 +54,7 @@ export default function PageControlls({ author, title, slug }) {
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Delete your post?</ModalHeader>
+            <ModalHeader>Delete your page?</ModalHeader>
             <ModalCloseButton />
             <ModalBody>Are you sure you want to delete '{title}'? </ModalBody>
 

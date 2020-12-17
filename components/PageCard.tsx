@@ -7,7 +7,7 @@ export default function PageItem({ title, excerpt, slug }) {
     bg: "gray.50",
   };
   return (
-    <Link href={`/posts/${slug}`}>
+    <Link href={`/pages/${slug}`}>
       <a>
         <Box
           mb="10px"

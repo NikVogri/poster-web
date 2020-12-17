@@ -65,7 +65,7 @@ const CreatePageModal = ({ openModal, closeModal }) => {
         "success"
       );
 
-      router.push(`/pages/${res.post.slug}`);
+      router.push(`/pages/${res.page.slug}`);
     }
   };
 
