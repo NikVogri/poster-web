@@ -2,7 +2,7 @@ import { Box, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 
-export default function PageItem({ title, excerpt, slug }) {
+export default function PageItem({ title, slug }) {
   const hoverStyle = {
     bg: "gray.50",
   };
@@ -20,7 +20,6 @@ export default function PageItem({ title, excerpt, slug }) {
           <Text fontWeight="bold" fontSize="xl">
             {title}
           </Text>
-          <Text mt="5px">{excerpt}</Text>
         </Box>
       </a>
     </Link>

@@ -1,8 +1,37 @@
 import { Box, Text } from "@chakra-ui/react";
-import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../components/context/AuthContext";
+import useApi from "../components/hooks/useApi";
 import PageCard from "../components/PageCard";
 
-const Home = ({ pages }) => {
+const Home = () => {
+  const [pages, setPages] = useState([]);
+  const { userLoading, user } = useContext(AuthContext);
+  const { api } = useApi();
+
+  useEffect(() => {
+    if (user) {
+      fetchUserPages();
+    }
+  }, [user]);
+
+  const fetchUserPages = async () => {
+    const data = await api(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/all/${user.id}`,
+      "get",
+      true
+    );
+    setPages(data.pages);
+  };
+
+  if (userLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (!userLoading && !user) {
+    return <p>Login to continue...</p>;
+  }
+
   return (
     <>
       <Text my="30px" fontWeight="bold" fontSize="3xl">
@@ -10,39 +39,12 @@ const Home = ({ pages }) => {
       </Text>
       <Box>
         {pages.map((page) => (
-          <PageCard
-            key={page.id}
-            excerpt={page.content.slice(0, 100)}
-            title={page.title}
-            slug={page.slug || ""}
-          />
+          <PageCard key={page.id} title={page.title} slug={page.slug || ""} />
         ))}
+        {pages.length == 0 && <p>No pages found, create one now!</p>}
       </Box>
     </>
   );
-};
-
-export const getStaticProps = async () => {
-  try {
-    const user = (await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/me`
-    )) as any;
-
-    if (!user) {
-      throw new Error();
-    }
-
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/${user.id}`
-    );
-
-    return {
-      props: { pages: res.data.pages },
-      revalidate: 1,
-    };
-  } catch (err) {
-    return { props: { pages: [] } };
-  }
 };
 
 export default Home;

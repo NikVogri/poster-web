@@ -15,6 +15,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Switch,
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -50,11 +51,12 @@ const CreatePageModal = ({ openModal, closeModal }) => {
   };
 
   const handlePageSubmit = async (e: FormikValues) => {
+    console.log(e);
     const res = await api(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages`,
       "post",
       true,
-      { ...e, content }
+      { ...e }
     );
 
     if (res.success) {
@@ -82,7 +84,7 @@ const CreatePageModal = ({ openModal, closeModal }) => {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <Formik
-              initialValues={{ title: "", content: "" }}
+              initialValues={{ title: "", isPrivate: false }}
               validationSchema={pageValidationSchema}
               onSubmit={handlePageSubmit}
             >
@@ -104,21 +106,17 @@ const CreatePageModal = ({ openModal, closeModal }) => {
                     </FormControl>
                   )}
                 </Field>
-                <Field name="content">
+                <Field name="isPrivate">
                   {({ field, form }) => (
                     <FormControl
                       isRequired
-                      isInvalid={form.errors.content && form.touched.content}
+                      isInvalid={form.errors.content && form.touched.isPrivate}
                     >
-                      <FormLabel>content</FormLabel>
-                      <SunEditor
-                        onAudioUpload={() => {}}
-                        onVideoUpload={() => {}}
-                        onImageUpload={() => {}}
-                        name="content"
-                        onChange={(val) => setContent(val)}
-                      />
-                      <FormErrorMessage>{form.errors.content}</FormErrorMessage>
+                      <FormLabel mt={4}>Make page isPrivate?</FormLabel>
+                      <Switch {...field} />
+                      <FormErrorMessage>
+                        {form.errors.isPrivate}
+                      </FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>

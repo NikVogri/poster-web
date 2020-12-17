@@ -1,0 +1,9 @@
+div.DraftEditor-root {
+  height: 100%;
+  width: 100%;
+}
+
+div.DraftEditor-editorContainer,
+div.public-DraftEditor-content {
+  height: 100%;
+}

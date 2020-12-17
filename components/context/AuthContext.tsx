@@ -39,6 +39,7 @@ const AuthProvider = ({ children }) => {
 
   const getUser = async () => {
     try {
+      setUserLoading(true);
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/me`,
         { withCredentials: true }
@@ -47,7 +48,10 @@ const AuthProvider = ({ children }) => {
       if (res.data.user) {
         setUser(res.data.user);
       }
-    } catch (err) {}
+    } catch (err) {
+    } finally {
+      setUserLoading(false);
+    }
   };
 
   const login = async (email: string, password: string) => {
