@@ -3,30 +3,21 @@ import useApi from "../../components/hooks/useApi";
 import { AuthContext } from "../../components/context/AuthContext";
 import { useRouter } from "next/router";
 import createToast from "../../helpers/toast";
+import useEditorAutosave from "../../components/hooks/useEditorAutosave";
 
-import { Editor, EditorState, Modifier } from "draft-js";
+import { Editor, EditorState, convertFromRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
 import { Box } from "@chakra-ui/react";
-
-function insertCharacter(characterToInsert: string, editorState: EditorState) {
-  const currentContent = editorState.getCurrentContent(),
-    currentSelection = editorState.getSelection();
-
-  Modifier.insertText(currentContent, currentSelection, characterToInsert);
-}
+import EditorControlls from "../../components/EditorControlls";
 
 export default function page() {
   const { userLoading, user } = useContext(AuthContext);
-  const [page, setPage] = useState(null);
+  const [editorState, setEditorState] = useEditorAutosave();
   const { api } = useApi();
   const router = useRouter();
 
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
-
   useEffect(() => {
-    if (user) {
+    if (user && router.query.slug) {
       fetchPage();
     }
   }, [user]);
@@ -47,8 +38,15 @@ export default function page() {
         "This page does not exist, if it should please contact the administrators",
         "error"
       );
+      return;
     }
-    insertCharacter(`### Welcome to your page`, editorState);
+
+    console.log(data);
+
+    if (data?.page?.content) {
+      const content = JSON.parse(data.page.content);
+      setEditorState(EditorState.createWithContent(convertFromRaw(content)));
+    }
   };
 
   if (userLoading) {
@@ -61,8 +59,13 @@ export default function page() {
 
   return (
     <Box bg="red" minH="calc(100vh - 70px)" width="100%">
-      <Box mt={4}>
-        <Editor editorState={editorState} onChange={setEditorState} />
+      <Box mt={4} position="relative">
+        <EditorControlls />
+        <Editor
+          editorState={editorState}
+          onChange={setEditorState}
+          placeholder="Your page, your words."
+        />
       </Box>
     </Box>
   );
