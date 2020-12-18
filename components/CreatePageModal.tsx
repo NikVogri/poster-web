@@ -1,8 +1,5 @@
 import { Field, Form, Formik, FormikValues } from "formik";
 
-import SunEditor from "suneditor-react";
-import "suneditor/dist/css/suneditor.min.css";
-
 import {
   Button,
   FormControl,
