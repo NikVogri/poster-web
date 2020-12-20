@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Grid, Text } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../components/context/AuthContext";
 import useApi from "../components/hooks/useApi";
@@ -37,12 +37,17 @@ const Home = () => {
       <Text my="30px" fontWeight="bold" fontSize="3xl">
         My Pages
       </Text>
-      <Box>
+      <Grid gridTemplateColumns="repeat(4, minmax(100px, 1fr))" gap={3}>
         {pages.map((page) => (
-          <PageCard key={page.id} title={page.title} slug={page.slug || ""} />
+          <PageCard
+            key={page.id}
+            title={page.title}
+            slug={page.slug || ""}
+            date={page.createdAt}
+          />
         ))}
         {pages.length == 0 && <p>No pages found, create one now!</p>}
-      </Box>
+      </Grid>
     </>
   );
 };
