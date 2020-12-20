@@ -5,7 +5,6 @@ import createToast from "../../helpers/toast";
 import useApi from "./useApi";
 
 let autoSaveTimer;
-
 const useEditorAutosave = () => {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
