@@ -1,9 +1,7 @@
 import {
   Box,
   Button,
-  Container,
   Flex,
-  Image,
   List,
   Menu,
   MenuButton,
@@ -17,6 +15,7 @@ import { AuthContext } from "../context/AuthContext";
 import CreatePageModal from "../CreatePageModal";
 import {} from "@chakra-ui/icons";
 import Avatar from "../Avatar";
+import Container from "./Container";
 
 const UserIcon = (
   <svg
@@ -87,7 +86,7 @@ const Navigation = () => {
   return (
     <>
       <Box>
-        <Container centerContent={false} maxW="1024px" py="15px">
+        <Container>
           <Flex justifyContent="space-between" align="center">
             <Box>
               <Link href="/">

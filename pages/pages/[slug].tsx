@@ -7,9 +7,10 @@ import useEditorAutosave from "../../components/hooks/useEditorAutosave";
 
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
-import { Box, Container } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import EditorControlls from "../../components/EditorControlls";
 import PageSidebar from "../../components/page/PageSidebar";
+import Container from "../../components/partials/Container";
 
 export default function page() {
   const { userLoading, user } = useContext(AuthContext);
@@ -66,7 +67,7 @@ export default function page() {
           { title: "my first page", slug: "20b34feba445adf5ef34e41f" },
         ]}
       />
-      <Container maxW="1024px" mx="auto" bg="red" flex={3}>
+      <Container>
         <Box bg="red" width="100%">
           <Box mt={5} position="relative">
             <EditorControlls />
