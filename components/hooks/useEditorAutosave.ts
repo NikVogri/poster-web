@@ -39,7 +39,7 @@ const useEditorAutosave = () => {
     }
   };
 
-  return [editorState, setEditorState as any];
+  return [editorState, setEditorState as any, saveData];
 };
 
 export default useEditorAutosave;
