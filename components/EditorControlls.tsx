@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Icon } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { bold, italic } from "../icons/icons";
 import Draggable from "react-draggable";
@@ -23,8 +23,23 @@ const WIDGETS: widgets[] = [
   },
 ];
 
-const EditorControlls = () => {
+const dragIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <title>ic_drag_handle_24px</title>
+    <g fill="#303030">
+      <path d="M20 9H4v2h16V9zM4 15h16v-2H4v2z"></path>
+    </g>
+  </svg>
+);
+
+const EditorControlls = ({ savePage }) => {
   const [widgetItems, setWidgetItems] = useState(WIDGETS);
+  const [isDraging, setIsDraging] = useState(false);
 
   const setActiveWidget = (clickedWidgetName: string) => {
     setWidgetItems((oldWidgets) =>
@@ -38,7 +53,11 @@ const EditorControlls = () => {
   };
 
   return (
-    <Draggable enableUserSelectHack={false}>
+    <Draggable
+      handle=".drag-handler"
+      onMouseDown={() => setIsDraging(true)}
+      onStop={() => setIsDraging(false)}
+    >
       <Flex
         position="relative"
         background="#fff"
@@ -51,8 +70,18 @@ const EditorControlls = () => {
         justify="space-between"
       >
         <Flex>
+          <Flex
+            alignItems="center"
+            pl={1}
+            cursor={isDraging ? "grabbing" : "grab"}
+            className="drag-handler"
+          >
+            {dragIcon}
+          </Flex>
           {widgetItems.map((widget) => (
             <Button
+              onDragEnter={() => setIsDraging(true)}
+              onDragLeave={() => setIsDraging(false)}
               _hover={{ background: "gray.200" }}
               p={2}
               borderRadius={0}
@@ -64,7 +93,7 @@ const EditorControlls = () => {
           ))}
           <HeaderDropdown widgetActive={false} />
         </Flex>
-        <Button px={5} borderRadius={0}>
+        <Button px={5} borderRadius={0} onClick={savePage}>
           Save
         </Button>
       </Flex>

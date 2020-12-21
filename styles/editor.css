@@ -7,3 +7,8 @@ div.DraftEditor-editorContainer,
 div.public-DraftEditor-content {
   height: 100%;
 }
+
+.draggable-bounds {
+  height: 100vh;
+  width: 100vw;
+}
