@@ -1,8 +1,9 @@
 import { Box, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
+import TimeAgo from "./TimeAgo";
 
-export default function PageItem({ title, slug, date }) {
+export default function PageItem({ title, slug, updatedAt }) {
   const hoverStyle = {
     bg: "gray.50",
   };
@@ -20,7 +21,7 @@ export default function PageItem({ title, slug, date }) {
           <Text fontWeight="bold" fontSize="xl">
             {title}
           </Text>
-          <Text>Created at: {new Date(date).toUTCString()}</Text>
+          <TimeAgo type="updated" date={new Date(updatedAt)} />
         </Box>
       </a>
     </Link>
