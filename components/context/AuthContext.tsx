@@ -16,6 +16,7 @@ interface AuthContextInterface {
   login: (email: string, password: string) => void;
   forgotPassword: (email: string) => void;
   resetPassword: (password: string, token: string) => void;
+  setAuthenticatedUser: (user: User) => void;
   userLoading: boolean;
 }
 
@@ -27,6 +28,7 @@ export const AuthContext = createContext<AuthContextInterface>({
   login: () => {},
   forgotPassword: () => {},
   resetPassword: () => {},
+  setAuthenticatedUser: (user: User) => {},
   userLoading: false,
 });
 
@@ -37,21 +39,9 @@ const AuthProvider = ({ children }) => {
 
   const router = useRouter();
 
-  const getUser = async () => {
-    try {
-      setUserLoading(true);
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/me`,
-        { withCredentials: true }
-      );
-
-      if (res.data.user) {
-        setUser(res.data.user);
-      }
-    } catch (err) {
-    } finally {
-      setUserLoading(false);
-    }
+  const setAuthenticatedUser = (user: User) => {
+    console.log("setauthuser", user);
+    setUser(user);
   };
 
   const login = async (email: string, password: string) => {
@@ -137,10 +127,6 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    getUser();
-  }, []);
-
   return (
     <AuthContext.Provider
       value={{
@@ -150,6 +136,7 @@ const AuthProvider = ({ children }) => {
         userLoading,
         forgotPassword,
         resetPassword,
+        setAuthenticatedUser,
       }}
     >
       {children}

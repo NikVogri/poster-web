@@ -1,11 +1,21 @@
-import { Box, Container } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../context/AuthContext";
 import Navigation from "./Navigation";
 
-export default function Layout({ children }) {
+const Layout = ({ children, currentUser }) => {
+  const { setAuthenticatedUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    setAuthenticatedUser(currentUser);
+  }, []);
+
   return (
     <>
       <Navigation />
       <Box position="relative">{children}</Box>
     </>
   );
-}
+};
+
+export default Layout;

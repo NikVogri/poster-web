@@ -1,28 +1,13 @@
-import { Box, Grid, Text } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { Grid, Text } from "@chakra-ui/react";
+import axios from "axios";
+import { GetServerSideProps } from "next";
+import { useContext } from "react";
 import { AuthContext } from "../components/context/AuthContext";
-import useApi from "../components/hooks/useApi";
 import PageCard from "../components/PageCard";
+import Container from "../components/partials/Container";
 
-const Home = () => {
-  const [pages, setPages] = useState([]);
+const Home = ({ pages }) => {
   const { userLoading, user } = useContext(AuthContext);
-  const { api } = useApi();
-
-  useEffect(() => {
-    if (user) {
-      fetchUserPages();
-    }
-  }, [user]);
-
-  const fetchUserPages = async () => {
-    const data = await api(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/all/${user.id}`,
-      "get",
-      true
-    );
-    setPages(data.pages);
-  };
 
   if (userLoading) {
     return <p>Loading...</p>;
@@ -33,7 +18,7 @@ const Home = () => {
   }
 
   return (
-    <>
+    <Container>
       <Text my="30px" fontWeight="bold" fontSize="3xl">
         My Pages
       </Text>
@@ -48,8 +33,33 @@ const Home = () => {
         ))}
         {pages.length == 0 && <p>No pages found, create one now!</p>}
       </Grid>
-    </>
+    </Container>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  try {
+    const res = await axios(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/all`,
+      {
+        withCredentials: true,
+        headers: {
+          cookie: req.headers.cookie,
+        },
+      }
+    );
+    return {
+      props: {
+        pages: res.data.pages,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        pages: [],
+      },
+    };
+  }
 };
 
 export default Home;
