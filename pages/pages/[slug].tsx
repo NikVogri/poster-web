@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useApi from "../../components/hooks/useApi";
 import { AuthContext } from "../../components/context/AuthContext";
 import { useRouter } from "next/router";
@@ -7,14 +7,15 @@ import useEditorAutosave from "../../components/hooks/useEditorAutosave";
 
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import EditorControlls from "../../components/EditorControlls";
-import PageSidebar from "../../components/page/PageSidebar";
+import PageSidebarLeft from "../../components/page/PageSidebarLeft";
+import PageSidebarRight from "../../components/page/PageSidebarRight";
 import Container from "../../components/partials/Container";
 
 export default function page() {
   const { userLoading, user } = useContext(AuthContext);
-  const [editorState, setEditorState] = useEditorAutosave();
+  const [editorState, setEditorState, saveData] = useEditorAutosave();
   const { api } = useApi();
   const router = useRouter();
 
@@ -62,15 +63,15 @@ export default function page() {
 
   return (
     <Box display="flex" minH="calc(100vh - 71px)">
-      <PageSidebar
+      <PageSidebarLeft
         pagesList={[
           { title: "my first page", slug: "20b34feba445adf5ef34e41f" },
         ]}
       />
       <Container>
         <Box bg="red" width="100%">
-          <Box mt={5} position="relative">
-            <EditorControlls />
+          <Box position="relative">
+            <EditorControlls savePage={saveData} />
             <Box mt={3}>
               <Editor
                 editorState={editorState}
@@ -81,7 +82,7 @@ export default function page() {
           </Box>
         </Box>
       </Container>
-      <Box flex={1}></Box>
+      <PageSidebarRight />
     </Box>
   );
 }

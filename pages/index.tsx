@@ -28,7 +28,7 @@ const Home = ({ pages }) => {
             key={page.id}
             title={page.title}
             slug={page.slug || ""}
-            date={page.createdAt}
+            updatedAt={page.updatedAt}
           />
         ))}
         {pages.length == 0 && <p>No pages found, create one now!</p>}
