@@ -12,11 +12,16 @@ import EditorControlls from "../../components/EditorControlls";
 import PageSidebarLeft from "../../components/page/PageSidebarLeft";
 import PageSidebarRight from "../../components/page/PageSidebarRight";
 import Container from "../../components/partials/Container";
+import { SaveBeforeUnloadModal } from "../../components/SaveBeforeUnloadModal";
 
 export default function page() {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+  const [showSaveBeforeUnloadModal, setShowSafeBeforeUnloadModal] = useState(
+    false
+  );
+
   const {
     saveEditorState,
     saveIsAvailable,
@@ -28,11 +33,26 @@ export default function page() {
 
   const router = useRouter();
 
+  console.log(saveIsAvailable);
+
   useEffect(() => {
     if (user && router.query.slug) {
       fetchPage();
     }
   }, [user]);
+
+  useEffect(() => {
+    window.onbeforeunload = function () {
+      if (saveIsAvailable) {
+        return "Please save before leaving the page.";
+      }
+      return undefined;
+    };
+
+    return () => {
+      saveEditorState();
+    };
+  }, []);
 
   const fetchPage = async () => {
     const { slug } = router.query;
@@ -73,29 +93,37 @@ export default function page() {
   }
 
   return (
-    <Box display="flex" minH="calc(100vh - 71px)">
-      <PageSidebarLeft />
-      <Container>
-        <Box bg="red" width="100%">
-          <Box position="relative">
-            <EditorControlls
-              savePage={saveEditorState}
-              saveAvailable={saveIsAvailable}
-            />
-            <Box mt={3}>
-              <Editor
-                editorState={editorState}
-                onChange={editorChangeHandler}
-                placeholder="Your page, your words."
+    <>
+      <Box display="flex" minH="calc(100vh - 71px)">
+        <PageSidebarLeft />
+        <Container>
+          <Box bg="red" width="100%">
+            <Box position="relative">
+              <EditorControlls
+                savePage={saveEditorState}
+                saveAvailable={saveIsAvailable}
               />
+              <Box mt={3}>
+                <Editor
+                  editorState={editorState}
+                  onChange={editorChangeHandler}
+                  placeholder="Your page, your words."
+                />
+              </Box>
             </Box>
           </Box>
-        </Box>
-      </Container>
-      <PageSidebarRight
-        lastSave={lastSaveTime}
-        saveIsAvailable={saveIsAvailable}
-      />
-    </Box>
+        </Container>
+        <PageSidebarRight
+          lastSave={lastSaveTime}
+          saveIsAvailable={saveIsAvailable}
+        />
+      </Box>
+      {showSaveBeforeUnloadModal && (
+        <SaveBeforeUnloadModal
+          closeModal={() => setShowSafeBeforeUnloadModal(false)}
+          saveData={() => saveEditorState()}
+        />
+      )}
+    </>
   );
 }
