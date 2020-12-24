@@ -12,14 +12,10 @@ import EditorControlls from "../../components/EditorControlls";
 import PageSidebarLeft from "../../components/page/PageSidebarLeft";
 import PageSidebarRight from "../../components/page/PageSidebarRight";
 import Container from "../../components/partials/Container";
-import { SaveBeforeUnloadModal } from "../../components/SaveBeforeUnloadModal";
 
 export default function page() {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
-  );
-  const [showSaveBeforeUnloadModal, setShowSafeBeforeUnloadModal] = useState(
-    false
   );
 
   const {
@@ -33,8 +29,6 @@ export default function page() {
 
   const router = useRouter();
 
-  console.log(saveIsAvailable);
-
   useEffect(() => {
     if (user && router.query.slug) {
       fetchPage();
@@ -47,10 +41,6 @@ export default function page() {
         return "Please save before leaving the page.";
       }
       return undefined;
-    };
-
-    return () => {
-      saveEditorState();
     };
   }, []);
 
@@ -118,12 +108,6 @@ export default function page() {
           saveIsAvailable={saveIsAvailable}
         />
       </Box>
-      {showSaveBeforeUnloadModal && (
-        <SaveBeforeUnloadModal
-          closeModal={() => setShowSafeBeforeUnloadModal(false)}
-          saveData={() => saveEditorState()}
-        />
-      )}
     </>
   );
 }
