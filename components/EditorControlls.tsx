@@ -37,7 +37,7 @@ const dragIcon = (
   </svg>
 );
 
-const EditorControlls = ({ savePage }) => {
+const EditorControlls = ({ savePage, saveAvailable }) => {
   const [widgetItems, setWidgetItems] = useState(WIDGETS);
   const [isDraging, setIsDraging] = useState(false);
 
@@ -84,6 +84,7 @@ const EditorControlls = ({ savePage }) => {
               onDragLeave={() => setIsDraging(false)}
               _hover={{ background: "gray.200" }}
               p={2}
+              key={widget.name}
               borderRadius={0}
               bg={widget.active ? "gray.200" : "none"}
               onClick={() => setActiveWidget(widget.name)}
@@ -93,7 +94,12 @@ const EditorControlls = ({ savePage }) => {
           ))}
           <HeaderDropdown widgetActive={false} />
         </Flex>
-        <Button px={5} borderRadius={0} onClick={savePage}>
+        <Button
+          px={5}
+          borderRadius={0}
+          onClick={savePage}
+          disabled={!saveAvailable}
+        >
           Save
         </Button>
       </Flex>

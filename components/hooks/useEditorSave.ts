@@ -1,27 +1,17 @@
-import { EditorState, convertToRaw } from "draft-js";
+import { convertToRaw } from "draft-js";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import createToast from "../../helpers/toast";
 import useApi from "./useApi";
 
-let autoSaveTimer;
-const useEditorAutosave = () => {
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
+const useEditorSave = (editorState) => {
+  const [saveIsAvailable, setSaveIsAvailable] = useState(false);
+  const [lastSaveTime, setLastSaveTime] = useState(new Date());
 
   const router = useRouter();
   const { api } = useApi();
 
-  useEffect(() => {
-    if (autoSaveTimer) {
-      clearTimeout(autoSaveTimer);
-    }
-
-    autoSaveTimer = setTimeout(saveData, 10000);
-  }, [editorState]);
-
-  const saveData = async () => {
+  const saveEditorState = async () => {
     const { slug } = router.query;
     const jsonData = JSON.stringify(
       convertToRaw(editorState.getCurrentContent())
@@ -36,10 +26,12 @@ const useEditorAutosave = () => {
 
     if (res?.success) {
       createToast("Autosave", "Data autosaved successfully", "success");
+      setSaveIsAvailable(false);
+      setLastSaveTime(new Date());
     }
   };
 
-  return [editorState, setEditorState as any, saveData];
+  return { saveEditorState, saveIsAvailable, setSaveIsAvailable, lastSaveTime };
 };
 
-export default useEditorAutosave;
+export default useEditorSave;
