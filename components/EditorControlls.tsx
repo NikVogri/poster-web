@@ -1,25 +1,34 @@
 import { Button, Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { bold, italic } from "../icons/icons";
+import { bold, italic, strikethrough, code, underline } from "../icons/icons";
 import Draggable from "react-draggable";
 import HeaderDropdown from "./HeaderDropdown";
 
 interface widgets {
   name: string;
   icon: JSX.Element;
-  active: boolean;
 }
 
 const WIDGETS: widgets[] = [
   {
-    name: "bold",
-    active: false,
+    name: "BOLD",
     icon: bold,
   },
   {
-    name: "italic",
-    active: false,
+    name: "ITALIC",
     icon: italic,
+  },
+  {
+    name: "STRIKETHROUGH",
+    icon: strikethrough,
+  },
+  {
+    name: "UNDERLINE",
+    icon: underline,
+  },
+  {
+    name: "CODE",
+    icon: code,
   },
 ];
 
@@ -37,20 +46,8 @@ const dragIcon = (
   </svg>
 );
 
-const EditorControlls = ({ savePage, saveAvailable }) => {
-  const [widgetItems, setWidgetItems] = useState(WIDGETS);
+const EditorControlls = ({ savePage, saveAvailable, changeEditorState }) => {
   const [isDraging, setIsDraging] = useState(false);
-
-  const setActiveWidget = (clickedWidgetName: string) => {
-    setWidgetItems((oldWidgets) =>
-      oldWidgets.map((widget) => {
-        return {
-          ...widget,
-          active: widget.name == clickedWidgetName ? true : false,
-        };
-      })
-    );
-  };
 
   return (
     <Draggable
@@ -78,21 +75,21 @@ const EditorControlls = ({ savePage, saveAvailable }) => {
           >
             {dragIcon}
           </Flex>
-          {widgetItems.map((widget) => (
+          {WIDGETS.map((widget) => (
             <Button
               onDragEnter={() => setIsDraging(true)}
               onDragLeave={() => setIsDraging(false)}
               _hover={{ background: "gray.200" }}
               p={2}
               key={widget.name}
+              background="none"
               borderRadius={0}
-              bg={widget.active ? "gray.200" : "none"}
-              onClick={() => setActiveWidget(widget.name)}
+              onClick={() => changeEditorState(widget.name)}
             >
               {widget.icon}
             </Button>
           ))}
-          <HeaderDropdown widgetActive={false} />
+          <HeaderDropdown onClick={changeEditorState} />
         </Flex>
         <Button
           px={5}

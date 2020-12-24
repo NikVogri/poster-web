@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import createToast from "../../helpers/toast";
 import useEditorSave from "../../components/hooks/useEditorSave";
 
-import { Editor, EditorState, convertFromRaw } from "draft-js";
+import { Editor, EditorState, convertFromRaw, RichUtils } from "draft-js";
 import "draft-js/dist/Draft.css";
 import { Box } from "@chakra-ui/react";
 import EditorControlls from "../../components/EditorControlls";
@@ -69,9 +69,20 @@ export default function page() {
     }
   };
 
-  const editorChangeHandler = (e: EditorState) => {
+  const editorChangeHandler = (newState: EditorState) => {
     setSaveIsAvailable(true);
-    setEditorState(e);
+    setEditorState(newState);
+  };
+
+  const handleKeyCommand = (command, editorState) => {
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+
+    if (newState) {
+      setEditorState(newState);
+      return "handled";
+    }
+
+    return "not-handled";
   };
 
   if (userLoading) {
@@ -92,9 +103,15 @@ export default function page() {
               <EditorControlls
                 savePage={saveEditorState}
                 saveAvailable={saveIsAvailable}
+                changeEditorState={(type: string) =>
+                  editorChangeHandler(
+                    RichUtils.toggleInlineStyle(editorState, type)
+                  )
+                }
               />
               <Box mt={3}>
                 <Editor
+                  handleKeyCommand={handleKeyCommand}
                   editorState={editorState}
                   onChange={editorChangeHandler}
                   placeholder="Your page, your words."

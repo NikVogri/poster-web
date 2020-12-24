@@ -29,7 +29,7 @@ const HEADERS = [
   },
 ];
 
-const HeaderDropdown = ({ widgetActive }) => {
+const HeaderDropdown = ({ onClick }) => {
   const [headersList, setHeadersList] = useState(HEADERS);
 
   const setActiveHeader = (activeHeaderName: string) => {
@@ -50,7 +50,8 @@ const HeaderDropdown = ({ widgetActive }) => {
         borderRadius={0}
         fontSize="18px"
         fontWeight="bold"
-        bg={widgetActive ? "#CBD5E0" : ""}
+        background="none"
+        onClick={onClick}
       >
         {headersList.filter((header) => header.active)[0].name}
       </Button>
