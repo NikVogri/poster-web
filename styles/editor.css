@@ -12,3 +12,34 @@ div.public-DraftEditor-content {
   height: 100vh;
   width: 100vw;
 }
+
+h1 div span {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+h2 div span {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+h3 div span {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+h4 div span {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+h5 div span {
+  font-size: 0.8em;
+  font-weight: bold;
+  background: orangered;
+}
+
+h6 div span {
+  font-size: 0.7em;
+  font-weight: bold;
+}
