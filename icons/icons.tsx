@@ -3,8 +3,8 @@ import React from "react";
 export const bold = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width="18"
+    height="18"
     viewBox="0 0 24 24"
   >
     <title>ic_format_bold_24px</title>
@@ -17,8 +17,8 @@ export const bold = (
 export const italic = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width="18"
+    height="18"
     viewBox="0 0 24 24"
   >
     <title>ic_format_italic_24px</title>
@@ -31,8 +31,8 @@ export const italic = (
 export const strikethrough = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width="18"
+    height="18"
     viewBox="0 0 24 24"
   >
     <title>ic_format_strikethrough_24px</title>
@@ -45,8 +45,8 @@ export const strikethrough = (
 export const underline = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width="18"
+    height="18"
     viewBox="0 0 24 24"
   >
     <title>ic_format_underlined_24px</title>
@@ -59,13 +59,41 @@ export const underline = (
 export const code = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width="18"
+    height="18"
     viewBox="0 0 24 24"
   >
     <title>ic_code_24px</title>
     <g fill="#303030">
       <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"></path>
+    </g>
+  </svg>
+);
+
+export const quote = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    viewBox="0 0 18 18"
+  >
+    <title>ic_format_quote_18px</title>
+    <g fill="#303030">
+      <path d="M10 5v5h2.75L11 13h2.25L15 10V5h-5zm-7 5h2.75L4 13h2.25L8 10V5H3v5z"></path>
+    </g>
+  </svg>
+);
+
+export const link = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    viewBox="0 0 18 18"
+  >
+    <title>ic_insert_link_18px</title>
+    <g fill="#303030">
+      <path d="M1.9 9c0-1.16.94-2.1 2.1-2.1h4V5H4C1.79 5 0 6.79 0 9s1.79 4 4 4h4v-1.9H4c-1.16 0-2.1-.94-2.1-2.1zM14 5h-4v1.9h4c1.16 0 2.1.94 2.1 2.1 0 1.16-.94 2.1-2.1 2.1h-4V13h4c2.21 0 4-1.79 4-4s-1.79-4-4-4zm-8 5h6V8H6v2z"></path>
     </g>
   </svg>
 );
