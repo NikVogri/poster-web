@@ -5,10 +5,17 @@ import { useRouter } from "next/router";
 import createToast from "../../helpers/toast";
 import useEditorSave from "../../components/hooks/useEditorSave";
 
-import { Editor, EditorState, convertFromRaw, RichUtils } from "draft-js";
+import {
+  Editor,
+  EditorState,
+  convertFromRaw,
+  RichUtils,
+  DraftEditorCommand,
+  ContentBlock,
+} from "draft-js";
 import "draft-js/dist/Draft.css";
-import { Box } from "@chakra-ui/react";
-import EditorControlls from "../../components/EditorControlls";
+import { Box, Heading } from "@chakra-ui/react";
+import EditorToolbar from "../../components/EditorToolbar";
 import PageSidebarLeft from "../../components/page/PageSidebarLeft";
 import PageSidebarRight from "../../components/page/PageSidebarRight";
 import Container from "../../components/partials/Container";
@@ -74,7 +81,10 @@ export default function page() {
     setEditorState(newState);
   };
 
-  const handleKeyCommand = (command, editorState) => {
+  const handleKeyCommand = (
+    command: DraftEditorCommand,
+    editorState: EditorState
+  ) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
 
     if (newState) {
@@ -84,6 +94,41 @@ export default function page() {
 
     return "not-handled";
   };
+
+  const toggleStyle = (
+    style: string,
+    type: "richtext" | "block" | "link" | "code"
+  ) => {
+    switch (type) {
+      case "richtext":
+        setEditorState(RichUtils.toggleInlineStyle(editorState, style));
+        break;
+      case "block":
+        setEditorState(RichUtils.toggleBlockType(editorState, style));
+        break;
+      // case "link":
+      //   updateEditorState(
+      //     RichUtils.toggleLink(editorState, "somethin", "www.google.com")
+      //   );
+      //   break;
+      case "code":
+        setEditorState(RichUtils.toggleCode(editorState));
+        break;
+    }
+  };
+
+  // const myBlockRenderer = (contentBlock: ContentBlock) => {
+  //   const blockType = contentBlock.getType();
+
+  //   switch (blockType) {
+  //     case "blockquote":
+  //       return "RichEditor-blockquote";
+  //     case "header-one":
+  //       return "RichEditor-header-one";
+  //     default:
+  //       return null;
+  //   }
+  // };
 
   if (userLoading) {
     return <p>Loading...</p>;
@@ -100,17 +145,15 @@ export default function page() {
         <Container>
           <Box bg="red" width="100%">
             <Box position="relative">
-              <EditorControlls
+              <EditorToolbar
                 savePage={saveEditorState}
                 saveAvailable={saveIsAvailable}
-                changeEditorState={(type: string) =>
-                  editorChangeHandler(
-                    RichUtils.toggleInlineStyle(editorState, type)
-                  )
-                }
+                editorState={editorState}
+                toggleStyle={toggleStyle}
               />
               <Box mt={3}>
                 <Editor
+                  // blockRendererFn={myBlockRenderer}
                   handleKeyCommand={handleKeyCommand}
                   editorState={editorState}
                   onChange={editorChangeHandler}
