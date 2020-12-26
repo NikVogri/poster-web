@@ -13,6 +13,19 @@ div.public-DraftEditor-content {
   width: 100vw;
 }
 
+blockquote {
+  border: solid 1px lightgray;
+  padding: 10px;
+  font-style: oblique;
+}
+
+/* .defaultCode,
+.public-DraftStyleDefault-pre {
+  background: rgba(160, 160, 160, 0.171);
+  padding: 10px 30px;
+  border-radius: 10px;
+} */
+
 h1 div span {
   font-size: 2em;
   font-weight: bold;
@@ -36,10 +49,13 @@ h4 div span {
 h5 div span {
   font-size: 0.8em;
   font-weight: bold;
-  background: orangered;
 }
 
 h6 div span {
   font-size: 0.7em;
   font-weight: bold;
+}
+
+code {
+  background: red;
 }

@@ -19,6 +19,7 @@ import EditorToolbar from "../../components/EditorToolbar";
 import PageSidebarLeft from "../../components/page/PageSidebarLeft";
 import PageSidebarRight from "../../components/page/PageSidebarRight";
 import Container from "../../components/partials/Container";
+import CodeBlock from "../../components/CodeBlock";
 
 export default function page() {
   const [editorState, setEditorState] = useState(() =>
@@ -112,23 +113,26 @@ export default function page() {
       //   );
       //   break;
       case "code":
+        console.log("here toggling code");
         setEditorState(RichUtils.toggleCode(editorState));
         break;
     }
   };
 
-  // const myBlockRenderer = (contentBlock: ContentBlock) => {
-  //   const blockType = contentBlock.getType();
-
-  //   switch (blockType) {
-  //     case "blockquote":
-  //       return "RichEditor-blockquote";
-  //     case "header-one":
-  //       return "RichEditor-header-one";
-  //     default:
-  //       return null;
-  //   }
-  // };
+  const myBlockRenderer = (contentBlock) => {
+    const type = contentBlock.getType();
+    console.log(type);
+    if (type === "code-block") {
+      console.log("here, this is code");
+      return {
+        component: CodeBlock,
+        editable: false,
+        props: {
+          foo: "bar",
+        },
+      };
+    }
+  };
 
   if (userLoading) {
     return <p>Loading...</p>;
@@ -153,7 +157,7 @@ export default function page() {
               />
               <Box mt={3}>
                 <Editor
-                  // blockRendererFn={myBlockRenderer}
+                  blockRendererFn={myBlockRenderer}
                   handleKeyCommand={handleKeyCommand}
                   editorState={editorState}
                   onChange={editorChangeHandler}

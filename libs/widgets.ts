@@ -1,12 +1,4 @@
-import {
-  bold,
-  italic,
-  strikethrough,
-  code,
-  underline,
-  quote,
-  link,
-} from "../icons/icons";
+import { bold, code, italic, strikethrough, underline } from "../icons/icons";
 
 interface widget {
   name: string;
@@ -42,22 +34,12 @@ export const richStyleWidgets: RichStyleWidgets[] = [
     icon: underline,
     type: "richtext",
   },
-  {
-    name: "CODE",
-    icon: code,
-    type: "richtext",
-  },
 ];
 
 export const contentBlockWidgets: ContentBlockWidgets[] = [
   {
-    name: "blockquote",
-    icon: quote,
-    type: "block",
-  },
-  {
-    name: "LINK",
-    icon: link,
+    name: "code-block",
+    icon: code,
     type: "block",
   },
   {

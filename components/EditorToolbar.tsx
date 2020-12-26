@@ -3,6 +3,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import Draggable from "react-draggable";
 import { EditorState } from "draft-js";
 import { richStyleWidgets, contentBlockWidgets } from "../libs/widgets";
+import EditorTool from "./EditorTool";
+import { code } from "../icons/icons";
 
 interface EditorControllsProps {
   savePage: () => void;
@@ -43,6 +45,10 @@ const EditorControlls: React.FC<EditorControllsProps> = ({
 
   const getBlockType = useCallback(() => {
     const selection = editorState.getSelection();
+
+    console.log(
+      editorState.getCurrentContent().getBlockForKey(selection.getStartKey())
+    );
     return editorState
       .getCurrentContent()
       .getBlockForKey(selection.getStartKey())
@@ -78,40 +84,18 @@ const EditorControlls: React.FC<EditorControllsProps> = ({
             {dragIcon}
           </Flex>
           {richStyleWidgets.map((widget) => (
-            <Button
-              onDragEnter={() => setIsDraging(true)}
-              onDragLeave={() => setIsDraging(false)}
-              _hover={{ background: "gray.200" }}
-              p={1}
-              key={widget.name}
-              background={currentlyActive?.has(widget.name) ? "gray.300" : ""}
-              borderRadius={0}
+            <EditorTool
               onClick={() => toggleStyle(widget.name, widget.type)}
-              border="none"
-              borderRight="solid"
-              borderWidth={1}
-              borderColor="gray.300"
-            >
-              {widget.icon}
-            </Button>
+              icon={widget.icon}
+              isActive={currentlyActive?.has(widget.name)}
+            />
           ))}
           {contentBlockWidgets.map((widget) => (
-            <Button
-              onDragEnter={() => setIsDraging(true)}
-              onDragLeave={() => setIsDraging(false)}
-              _hover={{ background: "gray.200" }}
-              p={1}
-              key={widget.name}
-              background={getBlockType() == widget.name ? "gray.300" : ""}
-              borderRadius={0}
+            <EditorTool
               onClick={() => toggleStyle(widget.name, widget.type)}
-              border="none"
-              borderRight="solid"
-              borderWidth={1}
-              borderColor="gray.300"
-            >
-              {widget.icon}
-            </Button>
+              icon={widget.icon}
+              isActive={getBlockType() == widget.name}
+            />
           ))}
         </Flex>
         <Button
