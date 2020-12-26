@@ -45,10 +45,6 @@ const EditorControlls: React.FC<EditorControllsProps> = ({
 
   const getBlockType = useCallback(() => {
     const selection = editorState.getSelection();
-
-    console.log(
-      editorState.getCurrentContent().getBlockForKey(selection.getStartKey())
-    );
     return editorState
       .getCurrentContent()
       .getBlockForKey(selection.getStartKey())
@@ -88,6 +84,7 @@ const EditorControlls: React.FC<EditorControllsProps> = ({
               onClick={() => toggleStyle(widget.name, widget.type)}
               icon={widget.icon}
               isActive={currentlyActive?.has(widget.name)}
+              key={widget.name}
             />
           ))}
           {contentBlockWidgets.map((widget) => (
@@ -95,6 +92,7 @@ const EditorControlls: React.FC<EditorControllsProps> = ({
               onClick={() => toggleStyle(widget.name, widget.type)}
               icon={widget.icon}
               isActive={getBlockType() == widget.name}
+              key={widget.name}
             />
           ))}
         </Flex>

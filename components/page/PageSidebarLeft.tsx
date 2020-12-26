@@ -27,6 +27,10 @@ const PageSidebarLeft = () => {
     }
   };
 
+  const isCurrentPage = (slug: string) => {
+    return slug === router.query.slug;
+  };
+
   return (
     <Box
       left="0px"
@@ -45,23 +49,32 @@ const PageSidebarLeft = () => {
 
       <Box textAlign="right" mt={3}>
         {loading && <Text textAlign="right">Loading..</Text>}
-        {pagesList.map((page) => (
-          <LinkStyle
-            key={page.title}
-            href={`/pages/${page.slug}`}
-            border="solid"
-            borderWidth={1}
-            borderRadius="5px"
-            px={5}
-            py={1}
-            display="block"
-            mb={1}
-            borderColor="gray.300"
-            disabled
-          >
-            {page.title}
-          </LinkStyle>
-        ))}
+        {pagesList.map((page) => {
+          if (isCurrentPage(page.slug)) {
+            return (
+              <Text px={5} py={1} bg="gray.200" borderRadius="5px" mb={1}>
+                {page.title}
+              </Text>
+            );
+          } else {
+            return (
+              <LinkStyle
+                key={page.title}
+                href={`/pages/${page.slug}`}
+                border="solid"
+                borderWidth={1}
+                borderRadius="5px"
+                px={5}
+                py={1}
+                display="block"
+                mb={1}
+                borderColor="gray.300"
+              >
+                {page.title}
+              </LinkStyle>
+            );
+          }
+        })}
       </Box>
     </Box>
   );
