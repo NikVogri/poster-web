@@ -57,6 +57,7 @@ const PageSidebarLeft = () => {
             display="block"
             mb={1}
             borderColor="gray.300"
+            disabled
           >
             {page.title}
           </LinkStyle>
