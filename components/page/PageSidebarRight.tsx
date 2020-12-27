@@ -1,18 +1,18 @@
 import { AvatarGroup, Box, Text, Avatar } from "@chakra-ui/react";
-import { time } from "console";
-import React, { useEffect, useState } from "react";
-import { timeSinceInMinutes } from "../../helpers/timeSince";
+import React, { useContext, useEffect, useState } from "react";
+import { EditorContext } from "../context/EditorContext";
 import TimeAgo from "../TimeAgo";
 
 const TIME_BEFORE_NOTIF = 60 * 1000; // 60 secs
 
-const PageSidebarRight = ({ lastSave, saveIsAvailable }) => {
+const PageSidebarRight = () => {
   const [displayNotification, setDisplayNotification] = useState(false);
+  const { save } = useContext(EditorContext);
 
   useEffect(() => {
     let notificationTimeout: any;
 
-    if (saveIsAvailable) {
+    if (save.saveIsAvailable) {
       notificationTimeout = setTimeout(() => {
         setDisplayNotification(true);
       }, TIME_BEFORE_NOTIF);
@@ -20,7 +20,7 @@ const PageSidebarRight = ({ lastSave, saveIsAvailable }) => {
       setDisplayNotification(false);
       clearTimeout(notificationTimeout);
     }
-  }, [saveIsAvailable]);
+  }, [save.saveIsAvailable]);
 
   return (
     <Box
@@ -56,7 +56,7 @@ const PageSidebarRight = ({ lastSave, saveIsAvailable }) => {
         {displayNotification && (
           <TimeAgo
             type="saved"
-            date={lastSave}
+            date={save.lastSaveTime}
             border="solid"
             borderWidth={1}
             borderColor="red.200"

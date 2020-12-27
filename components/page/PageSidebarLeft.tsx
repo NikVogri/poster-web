@@ -52,7 +52,14 @@ const PageSidebarLeft = () => {
         {pagesList.map((page) => {
           if (isCurrentPage(page.slug)) {
             return (
-              <Text px={5} py={1} bg="gray.200" borderRadius="5px" mb={1}>
+              <Text
+                px={5}
+                py={1}
+                bg="gray.200"
+                borderRadius="5px"
+                mb={1}
+                key={page.title}
+              >
                 {page.title}
               </Text>
             );

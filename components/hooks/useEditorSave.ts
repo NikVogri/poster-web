@@ -8,6 +8,8 @@ const useEditorSave = (editorState) => {
   const [saveIsAvailable, setSaveIsAvailable] = useState(false);
   const [lastSaveTime, setLastSaveTime] = useState(new Date());
 
+  console.log(saveIsAvailable);
+
   const router = useRouter();
   const { api } = useApi();
 
@@ -25,9 +27,11 @@ const useEditorSave = (editorState) => {
     );
 
     if (res?.success) {
-      createToast("Autosave", "Data autosaved successfully", "success");
+      createToast("Save", "Data saved successfully", "success");
       setSaveIsAvailable(false);
       setLastSaveTime(new Date());
+    } else {
+      createToast("Save", "Data could not be saved", "warning");
     }
   };
 

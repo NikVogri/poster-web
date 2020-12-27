@@ -1,22 +1,13 @@
 import { Button, Flex } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Draggable from "react-draggable";
-import { EditorState } from "draft-js";
+import { RichUtils } from "draft-js";
 import { richStyleWidgets, contentBlockWidgets } from "../libs/widgets";
 import EditorTool from "./EditorTool";
-import { code } from "../icons/icons";
-import { clearScreenDown } from "readline";
+import { EditorContext } from "./context/EditorContext";
+import clearFormatting from "draft-js-clear-formatting";
 
-interface EditorControllsProps {
-  savePage: () => void;
-  clearStyles: () => void;
-  saveAvailable: boolean;
-  toggleStyle: (
-    style: string,
-    type: "richtext" | "block" | "link" | "code"
-  ) => void;
-  editorState: EditorState;
-}
+interface EditorControllsProps {}
 
 const dragIcon = (
   <svg
@@ -46,15 +37,10 @@ const clearIcon = (
   </svg>
 );
 
-const EditorControlls: React.FC<EditorControllsProps> = ({
-  savePage,
-  saveAvailable,
-  toggleStyle,
-  clearStyles,
-  editorState,
-}) => {
+const EditorControlls: React.FC<EditorControllsProps> = () => {
   const [isDraging, setIsDraging] = useState(false);
   const [currentlyActive, setCurrentlyActive] = useState(null);
+  const { editorState, setEditorState, save } = useContext(EditorContext);
 
   useEffect(() => {
     setCurrentlyActive(editorState.getCurrentInlineStyle());
@@ -67,6 +53,39 @@ const EditorControlls: React.FC<EditorControllsProps> = ({
       .getBlockForKey(selection.getStartKey())
       .getType();
   }, [editorState]);
+
+  const toggleStyle = (
+    style: string,
+    type: "richtext" | "block" | "link" | "code"
+  ) => {
+    switch (type) {
+      case "richtext":
+        setEditorState(RichUtils.toggleInlineStyle(editorState, style));
+        break;
+      case "block":
+        setEditorState(RichUtils.toggleBlockType(editorState, style));
+        break;
+      // case "link":
+      //   updateEditorState(
+      //     RichUtils.toggleLink(editorState, "somethin", "www.google.com")
+      //   );
+      //   break;
+      case "code":
+        setEditorState(RichUtils.toggleCode(editorState));
+        break;
+    }
+  };
+
+  const clearStyles = () => {
+    console.log("clearing styles");
+    const options = {
+      inline: true,
+      entities: true,
+      lists: true,
+    };
+
+    setEditorState(clearFormatting(editorState, options));
+  };
 
   return (
     <Draggable
@@ -122,8 +141,8 @@ const EditorControlls: React.FC<EditorControllsProps> = ({
         <Button
           px={5}
           borderRadius={0}
-          onClick={savePage}
-          disabled={!saveAvailable}
+          onClick={save.saveEditorState}
+          disabled={!save.saveIsAvailable}
         >
           Save
         </Button>

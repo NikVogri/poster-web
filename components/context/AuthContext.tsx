@@ -40,7 +40,6 @@ const AuthProvider = ({ children }) => {
   const router = useRouter();
 
   const setAuthenticatedUser = (user: User) => {
-    console.log("setauthuser", user);
     setUser(user);
   };
 

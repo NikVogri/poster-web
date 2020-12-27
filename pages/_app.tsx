@@ -4,13 +4,17 @@ import Layout from "../components/partials/Layout";
 import "../styles/globals.css";
 import "../styles/editor.css";
 import axios, { AxiosResponse } from "axios";
+import EditorProvider from "../components/context/EditorContext";
+
 function MyApp({ Component, pageProps, user }) {
   // console.log(user);
   return (
     <AuthProvider>
       <ChakraProvider>
         <Layout currentUser={user}>
-          <Component {...pageProps} />
+          <EditorProvider>
+            <Component {...pageProps} />
+          </EditorProvider>
         </Layout>
       </ChakraProvider>
     </AuthProvider>
