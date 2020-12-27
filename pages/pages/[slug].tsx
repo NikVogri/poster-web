@@ -11,15 +11,16 @@ import {
   convertFromRaw,
   RichUtils,
   DraftEditorCommand,
-  ContentBlock,
+  Modifier,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
-import { Box, Heading } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import EditorToolbar from "../../components/EditorToolbar";
 import PageSidebarLeft from "../../components/page/PageSidebarLeft";
 import PageSidebarRight from "../../components/page/PageSidebarRight";
 import Container from "../../components/partials/Container";
 import CodeBlock from "../../components/CodeBlock";
+import clearFormatting from "draft-js-clear-formatting";
 
 export default function page() {
   const [editorState, setEditorState] = useState(() =>
@@ -113,17 +114,25 @@ export default function page() {
       //   );
       //   break;
       case "code":
-        console.log("here toggling code");
         setEditorState(RichUtils.toggleCode(editorState));
         break;
     }
   };
 
+  const clearStyles = () => {
+    console.log("clearing styles");
+    const options = {
+      inline: true,
+      entities: true,
+      lists: true,
+    };
+
+    setEditorState(clearFormatting(editorState, options));
+  };
+
   const myBlockRenderer = (contentBlock) => {
     const type = contentBlock.getType();
-    console.log(type);
     if (type === "code-block") {
-      console.log("here, this is code");
       return {
         component: CodeBlock,
         editable: false,
@@ -154,6 +163,7 @@ export default function page() {
                 saveAvailable={saveIsAvailable}
                 editorState={editorState}
                 toggleStyle={toggleStyle}
+                clearStyles={clearStyles}
               />
               <Box mt={3}>
                 <Editor
