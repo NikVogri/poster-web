@@ -7,9 +7,6 @@ import useApi from "./useApi";
 const useEditorSave = (editorState) => {
   const [saveIsAvailable, setSaveIsAvailable] = useState(false);
   const [lastSaveTime, setLastSaveTime] = useState(new Date());
-
-  console.log(saveIsAvailable);
-
   const router = useRouter();
   const { api } = useApi();
 

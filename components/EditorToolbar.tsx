@@ -77,7 +77,6 @@ const EditorControlls: React.FC<EditorControllsProps> = () => {
   };
 
   const clearStyles = () => {
-    console.log("clearing styles");
     const options = {
       inline: true,
       entities: true,

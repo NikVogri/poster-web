@@ -39,9 +39,6 @@ const EditorProvider = ({ children }) => {
 
   const fetchEditorState = async () => {
     const { slug } = router.query;
-
-    console.log("here trying to fetch");
-
     const data = await api(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/${slug}`,
       "get",
@@ -60,12 +57,9 @@ const EditorProvider = ({ children }) => {
 
     if (data?.page?.content) {
       const content = JSON.parse(data.page.content);
-      console.log(content);
       setEditorState(EditorState.createWithContent(convertFromRaw(content)));
     }
   };
-
-  console.log(editorState);
 
   return (
     <EditorContext.Provider

@@ -19,7 +19,6 @@ const EditorPage = () => {
 
   useEffect(() => {
     if (user && router.query.slug) {
-      console.log("fetch");
       fetchEditorState();
     }
   }, [user]);
