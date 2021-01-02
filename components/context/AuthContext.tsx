@@ -55,6 +55,7 @@ const AuthProvider = ({ children }) => {
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/login`,
       "post",
       true,
+      false,
       data
     );
 
@@ -73,7 +74,7 @@ const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await api(`${URL}/logout`, "post", true);
+      await api(`${URL}/logout`, "post", true, false);
 
       setUser(null);
       createToast("Logged out", "User is successfully logged out", "success");
@@ -91,7 +92,9 @@ const AuthProvider = ({ children }) => {
 
   const forgotPassword = async (email: string) => {
     try {
-      const res = await api(`${URL}/forgot-password`, "post", false, { email });
+      const res = await api(`${URL}/forgot-password`, "post", false, false, {
+        email,
+      });
 
       if (res.success) {
         createToast(
@@ -111,7 +114,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const resetPassword = async (password: string, token: string) => {
-    const res = await api(`${URL}/reset-password`, "post", false, {
+    const res = await api(`${URL}/reset-password`, "post", false, false, {
       password,
       token,
     });

@@ -53,6 +53,7 @@ const CreatePageModal = ({ openModal, closeModal }) => {
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages`,
       "post",
       true,
+      true,
       { ...e }
     );
 
