@@ -37,7 +37,7 @@ const clearIcon = (
   </svg>
 );
 
-const EditorControlls: React.FC<EditorControllsProps> = () => {
+const EditorToolbar: React.FC<EditorControllsProps> = () => {
   const [isDraging, setIsDraging] = useState(false);
   const [currentlyActive, setCurrentlyActive] = useState(null);
   const { editorState, setEditorState, save } = useContext(EditorContext);
@@ -65,11 +65,6 @@ const EditorControlls: React.FC<EditorControllsProps> = () => {
       case "block":
         setEditorState(RichUtils.toggleBlockType(editorState, style));
         break;
-      // case "link":
-      //   updateEditorState(
-      //     RichUtils.toggleLink(editorState, "somethin", "www.google.com")
-      //   );
-      //   break;
       case "code":
         setEditorState(RichUtils.toggleCode(editorState));
         break;
@@ -150,4 +145,4 @@ const EditorControlls: React.FC<EditorControllsProps> = () => {
   );
 };
 
-export default EditorControlls;
+export default EditorToolbar;
