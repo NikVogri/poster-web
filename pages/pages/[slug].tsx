@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../components/context/AuthContext";
 import { useRouter } from "next/router";
 
@@ -11,15 +11,23 @@ import PageSidebarLeft from "../../components/page/PageSidebarLeft";
 import PageSidebarRight from "../../components/page/PageSidebarRight";
 import Container from "../../components/partials/Container";
 import { EditorContext } from "../../components/context/EditorContext";
+import useApi from "../../components/hooks/useApi";
+import { convertFromRaw, EditorState } from "draft-js";
+import { Page } from "../../interfaces/page";
+import createToast from "../../helpers/toast";
 
 const EditorPage = () => {
   const { userLoading, user } = useContext(AuthContext);
-  const { fetchEditorState, save } = useContext(EditorContext);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [pageError, setPageError] = useState(false);
+  const { setEditorState, save } = useContext(EditorContext);
+  const [page, setPage] = useState<Page | null>(null);
   const router = useRouter();
+  const { api } = useApi();
 
   useEffect(() => {
     if (user && router.query.slug) {
-      fetchEditorState();
+      getPageData();
     }
   }, [user]);
 
@@ -32,12 +40,54 @@ const EditorPage = () => {
     };
   }, []);
 
+  const getPageData = async () => {
+    const { slug } = router.query;
+    setPageLoading(true);
+    try {
+      const data = await api(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/${slug}`,
+        "get",
+        true,
+        true
+      );
+
+      if (data.page) {
+        setPage(data.page);
+
+        if (data.page.content) {
+          // or else it's a new page
+          const state = JSON.parse(data.page.content);
+          setEditorState(EditorState.createWithContent(convertFromRaw(state)));
+        }
+      } else {
+        router.back();
+      }
+    } catch (err) {
+      setPageError(true);
+    } finally {
+      setPageLoading(false);
+    }
+  };
+
   if (userLoading) {
     return <p>Loading...</p>;
   }
 
   if (!userLoading && !user) {
     return <p>Login to continue</p>;
+  }
+
+  if (pageLoading) {
+    return <p>Page loading...</p>;
+  }
+
+  if (pageError) {
+    return (
+      <p>
+        You are not allowed on this page, please ask the owner to add you as a
+        member.
+      </p>
+    );
   }
 
   return (
@@ -51,7 +101,12 @@ const EditorPage = () => {
           </Box>
         </Box>
       </Container>
-      <PageSidebarRight />
+      <PageSidebarRight
+        members={page.members}
+        pageSlug={page.slug}
+        isOwner={user.id === page.owner.id}
+        pageOwner={page.owner}
+      />
     </Box>
   );
 };
