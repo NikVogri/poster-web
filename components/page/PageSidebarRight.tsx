@@ -51,7 +51,7 @@ const PageSidebarRight: React.FC<PageSidebarRightProps> = ({
           <Flex alignItems="center" mb={3}>
             <Text fontWeight="bold" fontSize="lg">
               Page Members{" "}
-              {members.length > 0 ? "(" + members.length + ")" : ""}
+              {members.length > 0 ? "(" + (members.length + 1) + ")" : 1}
             </Text>
             {isOwner && (
               <Button
