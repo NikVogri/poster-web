@@ -41,7 +41,6 @@ const InviteMembersModal: React.FC<InviteMembersProps> = ({
   const { api, loading } = useApi();
   const [invitedSuccessfully, setInvitedSuccessfully] = useState(false);
   const router = useRouter();
-  console.log(invitedSuccessfully);
 
   const closeModalHandler = () => {
     closeModal();

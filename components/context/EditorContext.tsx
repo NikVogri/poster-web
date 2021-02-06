@@ -29,7 +29,6 @@ const EditorProvider = ({ children }) => {
     EditorState.createEmpty()
   );
 
-  console.log(editorState);
   const save = useEditorSave(editorState);
 
   return (

@@ -7,7 +7,6 @@ import axios, { AxiosResponse } from "axios";
 import EditorProvider from "../components/context/EditorContext";
 
 function MyApp({ Component, pageProps, user }) {
-  // console.log(user);
   return (
     <AuthProvider>
       <ChakraProvider>
@@ -40,9 +39,7 @@ MyApp.getInitialProps = async ({ ctx }) => {
       }
     );
     user = res.data.user;
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 
   return {
     user,

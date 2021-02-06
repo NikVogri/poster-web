@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 
 import { AuthContext } from "../components/context/AuthContext";
-import { Router } from "next/router";
 
 const loginValidationSchema = Yup.object().shape({
   email: Yup.string()
