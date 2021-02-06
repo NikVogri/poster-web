@@ -20,16 +20,21 @@ const resetPasswordValidationSchema = Yup.object().shape({
   ),
 });
 
-const ResetPassword = ({ token }) => {
+const ResetPassword = () => {
   const { resetPassword } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const resetPasswordHandler = async (e: FormikValues) => {
+    const token = router.query.token as string;
+
     setLoading(true);
-    resetPassword(e.password, token);
+    const res = resetPassword(e.password, token);
     setLoading(false);
-    router.push("/login");
+
+    if (res) {
+      router.push("/login");
+    }
   };
 
   return (
@@ -102,11 +107,6 @@ const ResetPassword = ({ token }) => {
       </Formik>
     </Box>
   );
-};
-
-ResetPassword.getInitialProps = ({ query }) => {
-  const token = query.token;
-  return { token };
 };
 
 export default ResetPassword;
