@@ -31,6 +31,7 @@ export default function PageControlls({ author, title, slug }) {
     const res = await api(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/${slug}`,
       "delete",
+      true,
       true
     );
 

@@ -48,11 +48,9 @@ const CreatePageModal = ({ openModal, closeModal }) => {
   };
 
   const handlePageSubmit = async (e: FormikValues) => {
-    console.log(e);
     const res = await api(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages`,
       "post",
-      true,
       true,
       { ...e }
     );

@@ -1,20 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
-import createToast from "../../helpers/toast";
 import { useRouter } from "next/router";
+import { responseErrorHandler } from "../../helpers/responseErrorHandler";
 
 const useApi = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+
   const api = async (
     url: string,
     method: "post" | "put" | "get" | "delete",
     useCredentials: boolean,
-    handleError: boolean,
     data?: object
   ): Promise<any> => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
       setLoading(true);
       try {
         const res = await axios({
@@ -27,23 +26,8 @@ const useApi = () => {
         resolve(res.data);
       } catch (err) {
         setData(null);
-        if (handleError) {
-          if (err.response.data?.error) {
-            createToast(
-              "Something went wrong",
-              err.response.data.error,
-              "error"
-            );
-          } else {
-            createToast(
-              "Something went wrong",
-              "Could not complete your request at this time",
-              "error"
-            );
-          }
-        } else {
-          reject(err);
-        }
+        responseErrorHandler(err);
+        return null;
       } finally {
         setLoading(false);
       }
