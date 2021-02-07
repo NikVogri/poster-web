@@ -1,4 +1,4 @@
-import { Box, Link as LinkStyle, Text } from "@chakra-ui/react";
+import { Box, Link, Link as LinkStyle, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -50,37 +50,33 @@ const PageSidebarLeft = () => {
       <Box textAlign="right" mt={3}>
         {loading && <Text textAlign="right">Loading..</Text>}
         {pagesList.map((page) => {
-          if (isCurrentPage(page.slug)) {
-            return (
-              <Text
-                px={5}
-                py={1}
-                bg="gray.200"
-                borderRadius="5px"
-                mb={1}
-                key={page.title}
-              >
-                {page.title}
-              </Text>
-            );
-          } else {
-            return (
-              <LinkStyle
-                key={page.title}
-                href={`/pages/${page.slug}`}
-                border="solid"
-                borderWidth={1}
-                borderRadius="5px"
-                px={5}
-                py={1}
-                display="block"
-                mb={1}
-                borderColor="gray.300"
-              >
-                {page.title}
-              </LinkStyle>
-            );
-          }
+          return isCurrentPage(page.slug) ? (
+            <Text
+              px={5}
+              py={1}
+              bg="gray.200"
+              borderRadius="5px"
+              mb={1}
+              key={page.id}
+            >
+              {page.title}
+            </Text>
+          ) : (
+            <LinkStyle
+              key={page.id}
+              border="solid"
+              borderWidth={1}
+              borderRadius="5px"
+              href={`/pages/${page.slug}`}
+              px={5}
+              py={1}
+              display="block"
+              mb={1}
+              borderColor="gray.300"
+            >
+              {page.title}
+            </LinkStyle>
+          );
         })}
       </Box>
     </Box>

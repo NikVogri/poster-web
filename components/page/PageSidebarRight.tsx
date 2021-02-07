@@ -74,6 +74,7 @@ const PageSidebarRight: React.FC<PageSidebarRightProps> = ({
             />
             {members.map((member) => (
               <Avatar
+                key={member.id}
                 name={member.username}
                 src={member.avatar}
                 title={member.username}

@@ -20,7 +20,6 @@ const useEditorSave = (editorState) => {
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/${slug}`,
       "put",
       true,
-      false,
       { data: jsonData }
     );
 

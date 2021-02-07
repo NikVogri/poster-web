@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useContext } from "react";
 import { AuthContext } from "../../components/context/AuthContext";
 import PageLoading from "../page/PageLoading";
@@ -9,17 +10,18 @@ const withAuthentication = (WrappedComponent) => {
   const Page = () => {
     const { userLoading, user } = useContext(AuthContext);
 
+    // placeholder hack
     if (!isServer()) {
       if (userLoading) {
         return <PageLoading />;
       }
 
-      if (user) {
-        return <WrappedComponent user={user} />;
-      }
-
       if (!user && !userLoading) {
         return <PageError />;
+      }
+
+      if (user) {
+        return <WrappedComponent user={user} />;
       }
     } else {
       return <></>;
