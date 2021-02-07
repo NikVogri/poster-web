@@ -2,6 +2,12 @@ import { createStandaloneToast } from "@chakra-ui/react";
 
 const toast = createStandaloneToast();
 
+/**
+ * Creates toast
+ * @param title,
+ * @description
+ * @status
+ */
 const createToast = (
   title: string,
   description: string,
