@@ -1,23 +1,30 @@
 import { Grid, Text } from "@chakra-ui/react";
-import axios from "axios";
-import { GetServerSideProps } from "next";
-import { useContext } from "react";
-import { AuthContext } from "../components/context/AuthContext";
+import { useEffect, useState } from "react";
+import withAuthentication from "../components/hoc/withAuthentication";
+import useApi from "../components/hooks/useApi";
 import PageCard from "../components/PageCard";
 import Container from "../components/partials/Container";
 
-const Home = ({ pages }) => {
-  const { userLoading, user } = useContext(AuthContext);
+const Home = () => {
+  const [pages, setPages] = useState([]);
+  const { api } = useApi();
 
-  if (userLoading) {
-    return <p>Loading...</p>;
-  }
+  useEffect(() => {
+    fetchUserPages();
+  }, []);
 
-  if (!userLoading && !user) {
-    return <p>Login to continue...</p>;
-  }
+  const fetchUserPages = async () => {
+    const res = await api(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/all`,
+      "get",
+      true
+    );
 
-  console.log(pages);
+    if (res) {
+      setPages(res.pages);
+    }
+  };
+
   return (
     <Container>
       <Text my="30px" fontWeight="bold" fontSize="3xl">
@@ -40,30 +47,4 @@ const Home = ({ pages }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  try {
-    const res = await axios(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/all`,
-      {
-        withCredentials: true,
-        headers: {
-          cookie: req.headers.cookie,
-        },
-      }
-    );
-
-    return {
-      props: {
-        pages: res.data.pages,
-      },
-    };
-  } catch (err) {
-    return {
-      props: {
-        pages: [],
-      },
-    };
-  }
-};
-
-export default Home;
+export default withAuthentication(Home);
