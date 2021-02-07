@@ -3,7 +3,21 @@ import Link from "next/link";
 import React from "react";
 import TimeAgo from "./TimeAgo";
 
-export default function PageItem({ title, slug, updatedAt }) {
+interface PageItemProps {
+  title: string;
+  slug: string;
+  updatedAt: Date;
+  type: "notebook" | "todo";
+  isPrivate: boolean;
+}
+
+const PageCard = ({
+  title,
+  slug,
+  updatedAt,
+  type,
+  isPrivate,
+}: PageItemProps): JSX.Element => {
   const hoverStyle = {
     bg: "gray.50",
   };
@@ -21,9 +35,15 @@ export default function PageItem({ title, slug, updatedAt }) {
           <Text fontWeight="bold" fontSize="xl">
             {title}
           </Text>
+          <hr />
           <TimeAgo type="updated" date={new Date(updatedAt)} />
+          <hr />
+          <Text>Type: {type}</Text>
+          <Text>Private: {isPrivate ? "Private" : "Public"}</Text>
         </Box>
       </a>
     </Link>
   );
-}
+};
+
+export default PageCard;
