@@ -17,6 +17,7 @@ const Home = ({ pages }) => {
     return <p>Login to continue...</p>;
   }
 
+  console.log(pages);
   return (
     <Container>
       <Text my="30px" fontWeight="bold" fontSize="3xl">
@@ -29,6 +30,8 @@ const Home = ({ pages }) => {
             title={page.title}
             slug={page.slug || ""}
             updatedAt={page.updatedAt}
+            type={page.type}
+            isPrivate={page.private}
           />
         ))}
         {pages.length == 0 && <p>No pages found, create one now!</p>}
@@ -48,6 +51,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         },
       }
     );
+
     return {
       props: {
         pages: res.data.pages,

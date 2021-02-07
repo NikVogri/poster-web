@@ -9,4 +9,5 @@ export interface Page {
   members: User[];
   deleted: boolean;
   createdAt: Date;
+  type: "notebook" | "todo";
 }

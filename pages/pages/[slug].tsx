@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../components/context/AuthContext";
 import { useRouter } from "next/router";
 
-// import { Editor, EditorState, convertFromRaw } from "draft-js";
 import Editor from "../../components/Editor";
 import "draft-js/dist/Draft.css";
 import { Box } from "@chakra-ui/react";
@@ -14,10 +12,9 @@ import { EditorContext } from "../../components/context/EditorContext";
 import useApi from "../../components/hooks/useApi";
 import { convertFromRaw, EditorState } from "draft-js";
 import { Page } from "../../interfaces/page";
-import createToast from "../../helpers/toast";
+import withAuthentication from "../../components/hoc/withAuthentication";
 
-const EditorPage = () => {
-  const { userLoading, user } = useContext(AuthContext);
+const EditorPage = ({ user }) => {
   const [pageLoading, setPageLoading] = useState(true);
   const [pageError, setPageError] = useState(false);
   const { setEditorState, save } = useContext(EditorContext);
@@ -26,10 +23,10 @@ const EditorPage = () => {
   const { api } = useApi();
 
   useEffect(() => {
-    if (user && router.query.slug) {
+    if (router.query.slug) {
       getPageData();
     }
-  }, [user]);
+  }, [router.query.slug]);
 
   useEffect(() => {
     window.onbeforeunload = function () {
@@ -47,7 +44,6 @@ const EditorPage = () => {
       const data = await api(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/${slug}`,
         "get",
-        true,
         true
       );
 
@@ -69,14 +65,6 @@ const EditorPage = () => {
     }
   };
 
-  if (userLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (!userLoading && !user) {
-    return <p>Login to continue</p>;
-  }
-
   if (pageLoading) {
     return <p>Page loading...</p>;
   }
@@ -90,17 +78,35 @@ const EditorPage = () => {
     );
   }
 
+  let editor: JSX.Element;
+  switch (page.type) {
+    case "notebook":
+      editor = (
+        <Container>
+          <Box bg="red" width="100%">
+            <Box position="relative">
+              <EditorToolbar />
+              <Editor />
+            </Box>
+          </Box>
+        </Container>
+      );
+      break;
+    case "todo":
+      editor = (
+        <Container>
+          <Box bg="red" width="100%">
+            <Box position="relative">todo list</Box>
+          </Box>
+        </Container>
+      );
+      break;
+  }
+
   return (
     <Box display="flex" minH="calc(100vh - 71px)">
       <PageSidebarLeft />
-      <Container>
-        <Box bg="red" width="100%">
-          <Box position="relative">
-            <EditorToolbar />
-            <Editor />
-          </Box>
-        </Box>
-      </Container>
+      {editor}
       <PageSidebarRight
         members={page.members}
         pageSlug={page.slug}
@@ -111,4 +117,4 @@ const EditorPage = () => {
   );
 };
 
-export default EditorPage;
+export default withAuthentication(EditorPage);
