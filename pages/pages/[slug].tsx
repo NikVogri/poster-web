@@ -1,24 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
-
-import Editor from "../../components/Editor";
-import "draft-js/dist/Draft.css";
 import { Box } from "@chakra-ui/react";
-import EditorToolbar from "../../components/EditorToolbar";
-import PageSidebarLeft from "../../components/page/PageSidebarLeft";
-import PageSidebarRight from "../../components/page/PageSidebarRight";
-import Container from "../../components/partials/Container";
-import { EditorContext } from "../../components/context/EditorContext";
-import useApi from "../../components/hooks/useApi";
-import { convertFromRaw, EditorState } from "draft-js";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { Page } from "../../interfaces/page";
+import useApi from "../../components/hooks/useApi";
 import withAuthentication from "../../components/hoc/withAuthentication";
 
-const EditorPage = ({ user }) => {
+import PageSidebarLeft from "../../components/page/PageSidebarLeft";
+import PageSidebarRight from "../../components/page/PageSidebarRight";
+import Todo from "../../components/todo/Todo";
+import Notebook from "../../components/editor/Notebook";
+
+const RootPage = ({ user }) => {
   const [pageLoading, setPageLoading] = useState(true);
   const [pageError, setPageError] = useState(false);
-  const { setEditorState, save } = useContext(EditorContext);
-  const [page, setPage] = useState<Page | null>(null);
+  const [pageData, setPageData] = useState<Page | null>(null);
   const router = useRouter();
   const { api } = useApi();
 
@@ -27,15 +22,6 @@ const EditorPage = ({ user }) => {
       getPageData();
     }
   }, [router.query.slug]);
-
-  useEffect(() => {
-    window.onbeforeunload = function () {
-      if (save.saveIsAvailable) {
-        return "Please save before leaving the page.";
-      }
-      return undefined;
-    };
-  }, []);
 
   const getPageData = async () => {
     const { slug } = router.query;
@@ -48,13 +34,7 @@ const EditorPage = ({ user }) => {
       );
 
       if (data.page) {
-        setPage(data.page);
-
-        if (data.page.content) {
-          // or else it's a new page
-          const state = JSON.parse(data.page.content);
-          setEditorState(EditorState.createWithContent(convertFromRaw(state)));
-        }
+        setPageData(data.page);
       } else {
         router.back();
       }
@@ -79,27 +59,12 @@ const EditorPage = ({ user }) => {
   }
 
   let editor: JSX.Element;
-  switch (page.type) {
+  switch (pageData.type) {
     case "notebook":
-      editor = (
-        <Container>
-          <Box bg="red" width="100%">
-            <Box position="relative">
-              <EditorToolbar />
-              <Editor />
-            </Box>
-          </Box>
-        </Container>
-      );
+      editor = <Notebook data={pageData} />;
       break;
     case "todo":
-      editor = (
-        <Container>
-          <Box bg="red" width="100%">
-            <Box position="relative">todo list</Box>
-          </Box>
-        </Container>
-      );
+      editor = <Todo data={pageData} />;
       break;
   }
 
@@ -108,13 +73,13 @@ const EditorPage = ({ user }) => {
       <PageSidebarLeft />
       {editor}
       <PageSidebarRight
-        members={page.members}
-        pageSlug={page.slug}
-        isOwner={user.id === page.owner.id}
-        pageOwner={page.owner}
+        members={pageData.members}
+        pageSlug={pageData.slug}
+        isOwner={user.id === pageData.owner.id}
+        pageOwner={pageData.owner}
       />
     </Box>
   );
 };
 
-export default withAuthentication(EditorPage);
+export default withAuthentication(RootPage);

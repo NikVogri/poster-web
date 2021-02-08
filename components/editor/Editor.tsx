@@ -6,10 +6,9 @@ import {
   ContentBlock,
 } from "draft-js";
 import { Editor as DraftEditor } from "draft-js";
-import { useRouter } from "next/router";
 import React, { useContext } from "react";
 import CodeBlock from "./CodeBlock";
-import { EditorContext } from "./context/EditorContext";
+import { EditorContext } from "../context/EditorContext";
 
 const Editor = () => {
   const { editorState, setEditorState, save } = useContext(EditorContext);

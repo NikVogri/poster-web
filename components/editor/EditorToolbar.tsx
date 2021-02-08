@@ -2,9 +2,9 @@ import { Button, Flex } from "@chakra-ui/react";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import Draggable from "react-draggable";
 import { RichUtils } from "draft-js";
-import { richStyleWidgets, contentBlockWidgets } from "../libs/widgets";
+import { richStyleWidgets, contentBlockWidgets } from "../../libs/widgets";
 import EditorTool from "./EditorTool";
-import { EditorContext } from "./context/EditorContext";
+import { EditorContext } from "../context/EditorContext";
 import clearFormatting from "draft-js-clear-formatting";
 
 interface EditorControllsProps {}
