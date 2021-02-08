@@ -98,6 +98,7 @@ const EditorToolbar: React.FC<EditorControllsProps> = () => {
         alignItems="center"
         justify="space-between"
         borderRadius="5px"
+        maxWidth="590px"
       >
         <Flex>
           <Flex
