@@ -20,7 +20,7 @@ const useEditorSave = (editorState) => {
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/${slug}`,
       "put",
       true,
-      { data: jsonData }
+      { data: jsonData, type: "notebook" }
     );
 
     if (res?.success) {
