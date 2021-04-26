@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
-import Navigation from "./Navigation";
+import Navigation from "./Navigation/Navigation";
 
 const Layout = ({ children, currentUser }) => {
   const { setAuthenticatedUser } = useContext(AuthContext);
