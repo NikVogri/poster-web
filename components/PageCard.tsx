@@ -5,7 +5,7 @@ import TimeAgo from "./TimeAgo";
 
 interface PageItemProps {
   title: string;
-  slug: string;
+  id: string;
   updatedAt: Date;
   type: "notebook" | "todo";
   isPrivate: boolean;
@@ -13,7 +13,7 @@ interface PageItemProps {
 
 const PageCard = ({
   title,
-  slug,
+  id,
   updatedAt,
   type,
   isPrivate,
@@ -22,7 +22,7 @@ const PageCard = ({
     bg: "gray.50",
   };
   return (
-    <Link href={`/pages/${slug}`}>
+    <Link href={`/pages/${id}`}>
       <a>
         <Box
           mb="10px"
