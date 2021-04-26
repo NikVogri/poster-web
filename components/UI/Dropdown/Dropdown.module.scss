@@ -1,0 +1,29 @@
+.dropdown {
+	position: absolute;
+	z-index: 999;
+	bottom: 0;
+	right: 0;
+    transform: translateY(100%);
+	background-color: var(--background-primary);
+	width: inherit;
+
+	min-width: 10rem;
+    width: 25rem;
+
+	box-shadow: 0rem 0.4rem 0.4rem var(--shadow-block);
+	border-radius: 0.8rem;
+
+	padding: 1rem;
+
+	&__button {
+		position: relative;
+	}
+}
+
+.show {
+	display: block;
+}
+
+.hide {
+    display: none;
+}
