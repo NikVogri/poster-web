@@ -1,0 +1,7 @@
+@mixin outline {
+	transition: all 0.1s;
+
+	&:focus {
+		box-shadow: 0 0 0.45rem #879feda9;
+	}
+}

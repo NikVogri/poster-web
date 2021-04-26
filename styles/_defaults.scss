@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap");
+@import "./components";
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: inherit;
+}
+
+html {
+	font-size: 62.5%;
+	font-family: "Roboto", sans-serif !important;
+	background-color: var(--background-primary);
+	color: var(--text-primary);
+}
+
+p {
+	font-size: 1.6rem;
+	font-weight: 400;
+}
+
+a {
+	text-decoration: none;
+	color: var(--text-shy);
+	font-size: 1.6rem;
+	font-weight: 400;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+input,
+.form-control {
+	padding: 1.25rem 1rem;
+	font-size: 1.7rem;
+	font-family: inherit;
+	font-weight: 400;
+	outline: none;
+	border-radius: 3px;
+	border: 1px solid #5d7290;
+	background-color: #242c37;
+	width: 100%;
+
+	color: #fff;
+	@include outline();
+}
+
+label {
+	font-size: 1.6rem;
+	font-weight: 500;
+	margin-bottom: 0.25rem;
+	margin-top: 1.5rem;
+	display: block;
+	color: var(--text-blue);
+}
+
+.form-error {
+	font-size: 1.4rem;
+	font-weight: 300;
+	display: block;
+	margin-top: 0.5rem;
+
+	color: var(--text-accent);
+}
+
+.form-button {
+	font-size: 1.95rem;
+	font-family: inherit;
+	font-weight: 500;
+	padding: 1rem 1rem;
+	color: var(--text-primary);
+	margin-top: 1.5rem;
+	background-color: var(--button-primary);
+	width: 100%;
+	min-height: 4.7rem;
+
+	border: none;
+	cursor: pointer;
+
+	border-radius: 0.5rem;
+
+	@include outline();
+
+	&:hover {
+		background-color: var(--button-darker);
+	}
+
+}
