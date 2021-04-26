@@ -1,0 +1,30 @@
+.navigation {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.5rem 4rem;
+	background-color: var(--background-darker);
+	color: var(--text-primary);
+
+	box-shadow: 0rem 0.4rem 0.4rem var(--shadow-block);
+
+	h1 {
+		font-size: 3.5rem;
+		font-weight: 500;
+		cursor: pointer;
+	}
+
+	&__right {
+		list-style: none;
+		display: flex;
+		font-size: 1.5rem;
+
+		& li:first-child {
+			margin-right: 1rem;
+		}
+	}
+
+	.dropdown {
+		position: relative;
+	}
+}
