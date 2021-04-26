@@ -1,163 +1,177 @@
 import { Formik, Field, Form, FormikValues } from "formik";
 import { useContext, useState } from "react";
 import * as Yup from "yup";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  Text,
-} from "@chakra-ui/react";
 
 import { AuthContext } from "../components/context/AuthContext";
+import { useRouter } from "next/router";
+
+import LoadingButton from "../components/UI/LoadingButton/LoadingButton";
+
+import styles from "../styles/pages/Login.module.scss";
+import Link from "next/link";
 
 const loginValidationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Email needs to be an email address")
-    .required("Email is required"),
-  password: Yup.string().required("Password is required"),
+	email: Yup.string()
+		.email("Email needs to be an email address")
+		.required("Email is required"),
+	password: Yup.string().required("Password is required"),
 });
 const forgotPassValidationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Email needs to be an email address")
-    .required("Email is required"),
+	email: Yup.string()
+		.email("Email needs to be an email address")
+		.required("Email is required"),
 });
 
 const login = () => {
-  const { login, userLoading, forgotPassword } = useContext(AuthContext);
-  const [loadingForgotPass, setLoadingForgotPass] = useState(false);
+	const { login, userLoading, forgotPassword } = useContext(AuthContext);
+	const [loadingForgotPass, setLoadingForgotPass] = useState(false);
 
-  const [showForgotPasswordForm, setForgotPasswordForm] = useState(false);
+	const [showForgotPasswordForm, setForgotPasswordForm] = useState(false);
+	const router = useRouter();
 
-  const handleSubmit = async (e: FormikValues) => {
-    login(e.email, e.password);
-  };
+	const handleSubmit = async (e: FormikValues) => {
+		await login(e.email, e.password);
+		router.push("/my");
+	};
 
-  const handleForgotPassSubmit = async (e: FormikValues) => {
-    setLoadingForgotPass(true);
-    await forgotPassword(e.email);
-    setLoadingForgotPass(false);
-  };
+	const handleForgotPassSubmit = async (e: FormikValues) => {
+		setLoadingForgotPass(true);
+		await forgotPassword(e.email);
+		setLoadingForgotPass(false);
+	};
 
-  if (showForgotPasswordForm) {
-    return (
-      <Box
-        maxW="340px"
-        mx="auto"
-        mt="100px"
-        boxShadow="md"
-        p="30px"
-        borderRadius="lg"
-      >
-        <Formik
-          initialValues={{
-            email: "",
-          }}
-          validationSchema={forgotPassValidationSchema}
-          onSubmit={handleForgotPassSubmit}
-        >
-          <Form>
-            <Field name="email">
-              {({ field, form }) => (
-                <FormControl
-                  isRequired
-                  isInvalid={form.errors.email && form.touched.email}
-                >
-                  <FormLabel>Email</FormLabel>
-                  <Input type="email" required placeholder="Email" {...field} />
-                  <FormErrorMessage>{form.errors.email}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Button
-              mt={6}
-              colorScheme="teal"
-              type="submit"
-              width="100%"
-              isLoading={loadingForgotPass}
-            >
-              Send Email
-            </Button>
-          </Form>
-        </Formik>
-      </Box>
-    );
-  } else {
-    return (
-      <Box
-        maxW="340px"
-        mx="auto"
-        mt="100px"
-        boxShadow="md"
-        p="30px"
-        borderRadius="lg"
-      >
-        <Text fontWeight="bold" fontSize="2xl" textAlign="center" mb={6}>
-          Log in
-        </Text>
-        <Formik
-          initialValues={{
-            email: "",
-            password: "",
-          }}
-          validationSchema={loginValidationSchema}
-          onSubmit={handleSubmit}
-        >
-          <Form>
-            <Field name="email">
-              {({ field, form }) => (
-                <FormControl
-                  isRequired
-                  isInvalid={form.errors.email && form.touched.email}
-                >
-                  <FormLabel>Email</FormLabel>
-                  <Input type="email" required placeholder="Email" {...field} />
-                  <FormErrorMessage>{form.errors.email}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
+	return (
+		<main className={styles.login}>
+			{showForgotPasswordForm ? (
+				<div className={styles.login__container}>
+					<Formik
+						initialValues={{
+							email: "",
+						}}
+						validationSchema={forgotPassValidationSchema}
+						onSubmit={handleForgotPassSubmit}
+					>
+						<Form>
+							<Field name="email">
+								{({ field, form }) => (
+									<div className="form-group">
+										<label className="label">
+											Your email address
+										</label>
+										<input
+											className="form-control"
+											type="email"
+											required
+											placeholder="Email"
+											{...field}
+										/>
+										{form.errors.email &&
+											form.touched.email && (
+												<span className="form-error">
+													{form.errors.email}
+												</span>
+											)}
+									</div>
+								)}
+							</Field>
+							<LoadingButton
+								isLoading={loadingForgotPass}
+								className="form-button"
+								disabled={loadingForgotPass}
+								type="submit"
+							>
+								Send email
+							</LoadingButton>
+						</Form>
+					</Formik>
+					<p className={styles.copyright}>
+						Copyright © {new Date().getFullYear()} MIPAGE
+					</p>
+				</div>
+			) : (
+				<div className={styles.login__container}>
+					<Formik
+						initialValues={{
+							email: "",
+							password: "",
+						}}
+						validationSchema={loginValidationSchema}
+						onSubmit={handleSubmit}
+					>
+						<Form>
+							<Field name="email">
+								{({ field, form }) => (
+									<div className="form-group">
+										<label className="label">
+											Your email address
+										</label>
+										<input
+											className="form-control"
+											type="email"
+											required
+											{...field}
+										/>
+										{form.errors.email &&
+											form.touched.email && (
+												<span className="form-error">
+													{form.errors.email}
+												</span>
+											)}
+									</div>
+								)}
+							</Field>
 
-            <Field name="password">
-              {({ field, form }) => (
-                <FormControl
-                  isRequired
-                  mt={2}
-                  isInvalid={form.errors.password && form.touched.password}
-                >
-                  <FormLabel>Password</FormLabel>
-                  <Input
-                    {...field}
-                    type="password"
-                    required
-                    placeholder="Password"
-                  />
-                  <FormErrorMessage>{form.errors.password}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Button
-              mt={6}
-              colorScheme="teal"
-              type="submit"
-              width="100%"
-              isLoading={userLoading}
-            >
-              Submit
-            </Button>
-          </Form>
-        </Formik>
-        <Button
-          mt={3}
-          background="none"
-          onClick={() => setForgotPasswordForm(true)}
-        >
-          Forgot password?
-        </Button>
-      </Box>
-    );
-  }
+							<Field name="password">
+								{({ field, form }) => (
+									<div className="form-group">
+										<label className="label">
+											Your password
+										</label>
+										<input
+											className="form-control"
+											type="password"
+											required
+											{...field}
+										/>
+										{form.errors.password &&
+											form.touched.password && (
+												<span className="form-error">
+													{form.errors.password}
+												</span>
+											)}
+									</div>
+								)}
+							</Field>
+							<LoadingButton
+								isLoading={userLoading}
+								className="form-button"
+								disabled={userLoading}
+								type="submit"
+							>
+								Sign in
+							</LoadingButton>
+						</Form>
+					</Formik>
+					<div className={styles.secondary_buttons}>
+						<button
+							onClick={() => setForgotPasswordForm(true)}
+							className={styles.secondary__btn}
+						>
+							Forgot password?
+						</button>
+						<Link href="/register">
+							<a className={styles.secondary__btn}>
+								New? Create an account!
+							</a>
+						</Link>
+					</div>
+					<p className={styles.copyright}>
+						Copyright © {new Date().getFullYear()} MIPAGE
+					</p>
+				</div>
+			)}
+		</main>
+	);
 };
 
 export default login;
