@@ -74,7 +74,12 @@ export default function register() {
 								<div className="form-group">
 									<label className="label">Email</label>
 									<input
-										className="form-control"
+										className={`form-control ${
+											form.errors.email &&
+											form.touched.email
+												? "invalid"
+												: ""
+										}`}
 										type="email"
 										required
 										{...field}
@@ -94,7 +99,12 @@ export default function register() {
 								<div className="form-group">
 									<label className="label">Username</label>
 									<input
-										className="form-control"
+										className={`form-control ${
+											form.errors.username &&
+											form.touched.username
+												? "invalid"
+												: ""
+										}`}
 										type="text"
 										required
 										{...field}
@@ -114,7 +124,12 @@ export default function register() {
 								<div className="form-group">
 									<label className="label">Password</label>
 									<input
-										className="form-control"
+										className={`form-control ${
+											form.errors.password &&
+											form.touched.password
+												? "invalid"
+												: ""
+										}`}
 										type="password"
 										required
 										{...field}
@@ -136,7 +151,12 @@ export default function register() {
 										Confirm password
 									</label>
 									<input
-										className="form-control"
+										className={`form-control ${
+											form.errors.passwordConfirm &&
+											form.touched.passwordConfirm
+												? "invalid"
+												: ""
+										}`}
 										type="password"
 										required
 										{...field}

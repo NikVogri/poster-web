@@ -59,7 +59,12 @@ const login = () => {
 											Your email address
 										</label>
 										<input
-											className="form-control"
+											className={`form-control ${
+												form.errors.email &&
+												form.touched.email
+													? "invalid"
+													: ""
+											}`}
 											type="email"
 											required
 											placeholder="Email"
@@ -106,7 +111,12 @@ const login = () => {
 											Your email address
 										</label>
 										<input
-											className="form-control"
+											className={`form-control ${
+												form.errors.email &&
+												form.touched.email
+													? "invalid"
+													: ""
+											}`}
 											type="email"
 											required
 											{...field}
@@ -128,7 +138,12 @@ const login = () => {
 											Your password
 										</label>
 										<input
-											className="form-control"
+											className={`form-control ${
+												form.errors.password &&
+												form.touched.password
+													? "invalid"
+													: ""
+											}`}
 											type="password"
 											required
 											{...field}
