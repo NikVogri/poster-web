@@ -35,13 +35,13 @@ const PageCard = ({
 }: PageItemProps): JSX.Element => {
 	return (
 		<Link href={`/pages/${id}`}>
-			<a className={styles.page__card}>
+			<a className={styles.page__card} title={title}>
 				{type === PageType.Todo && (
 					<svg
-						className={styles.background__svg}
+						className={styles.background__svg__type}
 						xmlns="http://www.w3.org/2000/svg"
-						width="145"
-						height="145"
+						width="22"
+						height="22"
 						viewBox="0 0 512 512"
 					>
 						<g>
