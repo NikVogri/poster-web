@@ -40,8 +40,8 @@ input,
 	font-weight: 400;
 	outline: none;
 	border-radius: 3px;
-	border: 1px solid var(--outline);
-	background-color: var(--background-primary);
+	border: 2px solid var(--outline);
+	background-color: var(--background-card);
 	width: 100%;
 
 	box-shadow: 0.2rem 0.2rem 0.2rem var(--shadow-block);
@@ -72,9 +72,9 @@ label {
 }
 
 .form-button {
-	font-size: 1.95rem;
+	font-size: 1.6rem;
 	font-family: inherit;
-	font-weight: 500;
+	font-weight: 700;
 	padding: 1rem 1rem;
 	color: var(--text-primary);
 	margin-top: 2.5rem;

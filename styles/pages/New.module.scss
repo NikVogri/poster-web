@@ -1,0 +1,28 @@
+.heading__primary {
+	font-size: 2.2rem;
+	font-weight: 700;
+}
+
+.heading__section {
+	font-size: 1.7rem;
+	padding: 2rem 0 0.75rem 0;
+	margin-bottom: 2rem;
+	border-bottom: solid 1px var(--horizontal-ruling);
+}
+
+.description {
+	margin-top: 1rem;
+	font-size: 1.45rem;
+}
+
+.title {
+	color: var(--background-primary);
+	font-size: 2.45rem;
+	font-weight: 600;
+	margin-bottom: 0.5rem;
+}
+
+.selection__container {
+	display: flex;
+	justify-content: center;
+}
