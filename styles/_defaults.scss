@@ -54,7 +54,7 @@ label {
 	margin-bottom: 0.25rem;
 	margin-top: 1.5rem;
 	display: block;
-	color: var(--text-blue);
+	color: var(--text-shy);
 }
 
 .form-error {
@@ -85,7 +85,11 @@ label {
 	@include outline();
 
 	&:hover {
-		background-color: var(--button-darker);
+		background-color: var(--button-primary-hover);
+	}
+
+	&:disabled {
+		background-color: var(--button-primary-disabled);;
 	}
 
 }

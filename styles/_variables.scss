@@ -1,14 +1,33 @@
 :root {
-	--background-darker: #242c37;
-	--background-primary: #151a21;
-	--background-light: rgba(196, 196, 196, 0.1);
-	--button-primary: #323d4d;
-	--button-accent: #fd6868;
-	--text-accent: #fd6868;
-	--button-darker: #8e9bc8;
-	--text-blue: #cfcfcf;
-	--text-shy: #5d7290;
-	--text-primary: #ffffff;
+	--color-button-text: #fff;
+	--color-primary-100: #dee3ea;
+	--color-primary-200: #b2bdcd;
+	--color-primary-300: #5d7290;
+	--color-primary-600: #323d4d;
+	--color-primary-700: #242c37;
+	--color-primary-800: #151a21;
+	--color-primary-900: #0b0e11;
+	--color-secondary-washed-out: #879eed;
+	--color-secondary: #5575e7;
+	--color-accent-glow: rgba(253, 77, 77, 0.3);
+	--color-accent: #fd4d4d;
+	--color-accent-hover: #fd6868;
+	--color-accent-disabled: #f5bfbf;
+
+	--background-primary: var(--color-primary-800);
+	--background-darker: var(--color-primary-900);
+	--background-light: var(--color-primary-700);
+
+	--button-primary: var(--color-primary-800);
+	--button-primary-hover: var(--color-primary-600);
+	--button-primary-disabled: var(--color-primary-600);
+
+	--button-accent: var(--color-accent);
+	--button-darker: var(--color-primary-300);
+
+	--text-accent: var(--color-accent-hover);
+	--text-shy: var(--color-primary-300);
+	--text-primary: var(--color-button-text);
 	--text-primary-shy: rgba(255, 255, 255, 0.61);
 
 	--shadow-block: rgba(0, 0, 0, 0.25);
