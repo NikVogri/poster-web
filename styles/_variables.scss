@@ -1,34 +1,29 @@
 :root {
-	--color-button-text: #fff;
-	--color-primary-100: #dee3ea;
-	--color-primary-200: #b2bdcd;
-	--color-primary-300: #5d7290;
-	--color-primary-600: #323d4d;
-	--color-primary-700: #242c37;
-	--color-primary-800: #151a21;
-	--color-primary-900: #0b0e11;
-	--color-secondary-washed-out: #879eed;
-	--color-secondary: #5575e7;
-	--color-accent-glow: rgba(253, 77, 77, 0.3);
-	--color-accent: #fd4d4d;
-	--color-accent-hover: #fd6868;
-	--color-accent-disabled: #f5bfbf;
+	--color-secondary-100: #dee3ea;
+    --color-secondary-200: #b2bdcd;
+    --color-secondary-300: #5d7290;
+    --color-secondary-600: #323d4d;
+    --color-secondary-700: #242c37;
+    --color-secondary-800: #151a21;
+    --color-secondary-900: #0b0e11;
+	
+	--color-pop: #FD6868;
+	--color-pop-hover: #fa5e5e;
 
-	--background-primary: var(--color-primary-800);
-	--background-darker: var(--color-primary-900);
-	--background-light: var(--color-primary-700);
+	--background-primary: #18191a;
+	--background-card: #242526;
 
-	--button-primary: var(--color-primary-800);
-	--button-primary-hover: var(--color-primary-600);
+	--button-primary: var(--color-pop);
+	--button-primary-hover: var(--color-pop-hover);
 	--button-primary-disabled: var(--color-primary-600);
 
 	--button-accent: var(--color-accent);
 	--button-darker: var(--color-primary-300);
 
-	--text-accent: var(--color-accent-hover);
-	--text-shy: var(--color-primary-300);
-	--text-primary: var(--color-button-text);
-	--text-primary-shy: rgba(255, 255, 255, 0.61);
+	--outline: #3a3b3c;
+
+	--text-primary: #e4e6eb;
+	--text-secondary: #b0b3b8;
 
 	--shadow-block: rgba(0, 0, 0, 0.25);
 }
