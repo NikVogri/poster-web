@@ -23,7 +23,7 @@ p {
 
 a {
 	text-decoration: none;
-	color: var(--text-shy);
+	color: var(--text-secondary);
 	font-size: 1.6rem;
 	font-weight: 400;
 
@@ -40,12 +40,18 @@ input,
 	font-weight: 400;
 	outline: none;
 	border-radius: 3px;
-	border: 1px solid #5d7290;
-	background-color: #242c37;
+	border: 1px solid var(--outline);
+	background-color: var(--background-primary);
 	width: 100%;
+
+	box-shadow: 0.2rem 0.2rem 0.2rem var(--shadow-block);
 
 	color: #fff;
 	@include outline();
+
+	&.invalid {
+		border: solid 2px var(--color-pop-hover);
+	}
 }
 
 label {
@@ -54,16 +60,15 @@ label {
 	margin-bottom: 0.25rem;
 	margin-top: 1.5rem;
 	display: block;
-	color: var(--text-shy);
 }
 
 .form-error {
-	font-size: 1.4rem;
-	font-weight: 300;
+	font-size: 1.2rem;
+	font-weight: 400;
 	display: block;
 	margin-top: 0.5rem;
 
-	color: var(--text-accent);
+	color: var(--color-pop);
 }
 
 .form-button {
@@ -72,10 +77,12 @@ label {
 	font-weight: 500;
 	padding: 1rem 1rem;
 	color: var(--text-primary);
-	margin-top: 1.5rem;
+	margin-top: 2.5rem;
 	background-color: var(--button-primary);
 	width: 100%;
+
 	min-height: 4.7rem;
+	box-shadow: 0.2rem 0.2rem 0.2rem var(--shadow-block);
 
 	border: none;
 	cursor: pointer;

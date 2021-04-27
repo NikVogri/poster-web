@@ -1,7 +1,9 @@
 @mixin outline {
 	transition: all 0.1s;
+	border: solid 2px transparent;
 
 	&:focus {
-		box-shadow: 0 0 0.45rem #879feda9;
+		box-shadow: 0 0 0.45rem var(--color-secondary-700);
+		border: solid 2px var(--color-secondary-300);
 	}
 }

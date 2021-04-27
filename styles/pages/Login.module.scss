@@ -5,7 +5,7 @@
 	align-items: center;
 
 	&__container {
-		background-color: var(--background-light);
+		background-color: var(--background-card);
 		border-radius: 0.5rem;
 		padding: 8rem 15rem 10rem 15rem;
 
@@ -30,7 +30,7 @@
 			cursor: pointer;
 
 			margin-top: 0.75rem;
-			color: var(--text-shy);
+			color: var(--text-secondary);
 
 			&:hover {
 				text-decoration: underline;
@@ -41,7 +41,7 @@
 			position: absolute;
 			bottom: 5rem;
 			font-size: 1.5rem;
-			color: var(--text-shy);
+			color: var(--text-secondary);
 			left: 50%;
 			transform: translateX(-50%);
 		}
