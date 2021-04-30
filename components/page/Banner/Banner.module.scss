@@ -1,0 +1,38 @@
+.page__banner {
+	position: relative;
+	height: 30rem;
+	transform: translateX(-2rem) translateY(-2rem);
+	width: calc(100% + 4rem);
+
+	background-position: center;
+
+	&:hover {
+		.edit {
+			opacity: 1;
+		}
+	}
+
+	.edit {
+		position: absolute;
+		right: 1.5rem;
+		top: 1.5rem;
+		opacity: 0;
+
+		transition: all 0.3s ease;
+
+		background: none;
+		border: none;
+
+		cursor: pointer;
+
+		svg {
+			stroke: var(--text-secondary);
+			opacity: 0.35;
+			transition: all 0.3s ease;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
+}
