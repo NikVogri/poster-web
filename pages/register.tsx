@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as Yup from "yup";
 
 import { Formik, Form, Field } from "formik";
@@ -8,11 +8,20 @@ import createToast from "../helpers/toast";
 
 import styles from "../styles/pages/Register.module.scss";
 import Link from "next/link";
+import { AuthContext } from "../components/context/AuthContext";
+import LoadingButton from "../components/UI/LoadingButton/LoadingButton";
 
 export default function register() {
+	const { user } = useContext(AuthContext);
 	const [submitting, setSubmitting] = useState(false);
 
 	const router = useRouter();
+
+	useEffect(() => {
+		if (user) {
+			router.push("/");
+		}
+	}, [user]);
 
 	const signupValidationSchema = Yup.object().shape({
 		email: Yup.string()
@@ -170,9 +179,12 @@ export default function register() {
 								</div>
 							)}
 						</Field>
-						<button className="form-button">
+						<LoadingButton
+							className="form-button"
+							isLoading={submitting}
+						>
 							Create new account
-						</button>
+						</LoadingButton>
 					</Form>
 				</Formik>
 				<Link href="/login">

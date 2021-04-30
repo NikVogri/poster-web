@@ -1,5 +1,5 @@
 import { Formik, Field, Form, FormikValues } from "formik";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import * as Yup from "yup";
 
 import { AuthContext } from "../components/context/AuthContext";
@@ -23,11 +23,19 @@ const forgotPassValidationSchema = Yup.object().shape({
 });
 
 const login = () => {
-	const { login, userLoading, forgotPassword } = useContext(AuthContext);
+	const { login, userLoading, forgotPassword, user } = useContext(
+		AuthContext
+	);
 	const [loadingForgotPass, setLoadingForgotPass] = useState(false);
 
 	const [showForgotPasswordForm, setForgotPasswordForm] = useState(false);
 	const router = useRouter();
+
+	useEffect(() => {
+		if (user) {
+			router.push("/");
+		}
+	}, [user]);
 
 	const handleSubmit = async (e: FormikValues) => {
 		await login(e.email, e.password);
