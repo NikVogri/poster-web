@@ -1,17 +1,18 @@
 import { User } from "./user";
 
 export enum PageType {
-  Todo = "todo",
-  Notebook = "notebook",
-}; 
+	Todo = "todo",
+	Notebook = "notebook",
+}
 export interface Page {
-  content: JSON;
-  private: boolean;
-  slug: string;
-  updatedAt: Date;
-  owner: User;
-  members: User[];
-  deleted: boolean;
-  createdAt: Date;
-  type: "notebook" | "todo";
+	id: string;
+	title: string;
+	content: JSON;
+	private: boolean;
+	owner: User;
+	members: User[];
+	deleted: boolean;
+	updatedAt: Date;
+	createdAt: Date;
+	type: PageType;
 }
