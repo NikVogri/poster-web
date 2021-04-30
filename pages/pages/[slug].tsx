@@ -5,13 +5,19 @@ import { Page } from "../../interfaces/page";
 import useApi from "../../components/hooks/useApi";
 import withAuthentication from "../../components/hoc/withAuthentication";
 
-import PageSidebarLeft from "../../components/page/PageSidebarLeft";
-import PageSidebarRight from "../../components/page/PageSidebarRight";
+import OtherPages from "../../components/page/OtherPages/OtherPages";
+
 import Todo from "../../components/todo/Todo";
-import Notebook from "../../components/editor/Notebook";
+import Notebook from "../../components/page/Notebook/Notebook";
 import PageError from "../../components/page/PageError";
 
-const RootPage = ({ user }) => {
+import styles from "../../styles/pages/Page.module.scss";
+
+import PageLeftSide from "../../components/page/PageLeftSide/PageLeftSide";
+import PageRightSide from "../../components/page/PageRightSide/PageRightSide";
+import PageCenter from "../../components/page/PageCenter/PageCenter";
+
+const RootPage = () => {
 	const [pageData, setPageData] = useState<Page | null>(null);
 	const router = useRouter();
 	const { api, loading } = useApi();
@@ -55,18 +61,15 @@ const RootPage = ({ user }) => {
 			break;
 	}
 
+	console.log(pageData);
+
 	return (
-		<Box display="flex" minH="calc(100vh - 71px)">
-			<PageSidebarLeft />
-			{editor}
-			<PageSidebarRight
-				members={pageData.members}
-				pageSlug={pageData.slug}
-				isOwner={user.id === pageData.owner.id}
-				pageOwner={pageData.owner}
-			/>
-		</Box>
+		<main className={styles.page}>
+			<PageLeftSide />
+			<PageCenter />
+			<PageRightSide />
+		</main>
 	);
 };
 
-export default withAuthentication(RootPage);
+export default RootPage;
