@@ -9,6 +9,10 @@
 	font-family: inherit;
 }
 
+body {
+	position: relative;
+}
+
 html {
 	font-size: 62.5%;
 	font-family: "Roboto", sans-serif !important;
@@ -96,7 +100,11 @@ label {
 	}
 
 	&:disabled {
-		background-color: var(--button-primary-disabled);;
+		background-color: var(--button-primary-disabled);
 	}
+}
 
+.custom-portal {
+	height: 0;
+	width: 0;
 }
