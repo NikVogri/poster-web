@@ -8,17 +8,20 @@ import EditorProvider from "../components/context/EditorContext";
 
 import "../styles/main.scss";
 import "../styles/spinner.scss";
+import PageProvider from "../components/context/PageContext";
 
 function MyApp({ Component, pageProps, user }) {
 	return (
 		<AuthProvider>
 			{/* <ChakraProvider> */}
+			<PageProvider>
 				<Layout currentUser={user}>
 					<EditorProvider>
 						<Component {...pageProps} />
 					</EditorProvider>
 				</Layout>
-			{/* </ChakraProvider> */}
+				{/* </ChakraProvider> */}
+			</PageProvider>
 		</AuthProvider>
 	);
 }

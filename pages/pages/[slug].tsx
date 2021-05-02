@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Page } from "../../interfaces/page";
+import { Page, PageType } from "../../interfaces/page";
 import useApi from "../../components/hooks/useApi";
 import withAuthentication from "../../components/hoc/withAuthentication";
 
@@ -16,9 +16,12 @@ import styles from "../../styles/pages/Page.module.scss";
 import PageLeftSide from "../../components/page/PageLeftSide/PageLeftSide";
 import PageRightSide from "../../components/page/PageRightSide/PageRightSide";
 import PageCenter from "../../components/page/PageCenter/PageCenter";
+import { PageContext } from "../../components/context/PageContext";
 
 const RootPage = () => {
-	const [pageData, setPageData] = useState<Page | null>(null);
+	const { page, setCurrentPage, notebook, setCurrentNotebook } = useContext(
+		PageContext
+	);
 	const router = useRouter();
 	const { api, loading } = useApi();
 
@@ -37,13 +40,17 @@ const RootPage = () => {
 		);
 
 		if (data.page) {
-			setPageData(data.page);
+			if (data.page.type === PageType.Notebook && !notebook) {
+				setCurrentNotebook(data.page.notebooks[0]);
+			}
+
+			setCurrentPage(data.page);
 		} else {
 			router.back();
 		}
 	};
 
-	if (!pageData && !loading) {
+	if (!page && !loading) {
 		return <PageError />;
 	}
 
@@ -52,16 +59,17 @@ const RootPage = () => {
 	}
 
 	let editor: JSX.Element;
-	switch (pageData.type) {
+	switch (page.type) {
 		case "notebook":
-			editor = <Notebook data={pageData} />;
+			editor = <Notebook />;
 			break;
 		case "todo":
-			editor = <Todo data={pageData} />;
+			editor = <Todo data={page} />;
 			break;
 	}
 
-	console.log(pageData);
+	console.log(page);
+	console.log(notebook);
 
 	return (
 		<main className={styles.page}>
