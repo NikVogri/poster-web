@@ -1,7 +1,7 @@
 import { Container, Box, Text, Button, Flex, Grid } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Todo, TodoItem } from "../../interfaces/todo";
-import TodoCard from "./TodoCard";
+import TodoCard from "../page/TodoCard/TodoCard";
 import { v4 as uuid } from "uuid";
 
 interface TodoPageProps {

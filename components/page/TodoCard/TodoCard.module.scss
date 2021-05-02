@@ -1,0 +1,29 @@
+.todo__card {
+	padding: 1rem;
+	background-color: var(--background-primary);
+	box-shadow: 0rem 0.4rem 0.4rem var(--shadow-block);
+	border-radius: 1rem;
+
+	ul {
+		list-style: none;
+	}
+
+	.card {
+		&__header {
+			display: flex;
+			align-items: center;
+            justify-content: space-between;
+
+            span {
+                font-size: 1.4rem;
+                font-weight: 600;
+            }
+        }
+
+		&__title {
+			padding: 0.5rem 0;
+			font-size: 1.6rem;
+            max-width: 80%;
+		}
+	}
+}

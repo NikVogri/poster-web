@@ -1,0 +1,17 @@
+.todo {
+    &__loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & > * {
+            transform: translateY(5rem);
+        }
+    }
+
+    &__container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 25rem);
+        gap: 3rem;
+    }
+}
