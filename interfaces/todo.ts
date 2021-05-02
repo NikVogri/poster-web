@@ -3,7 +3,7 @@ export interface TodoItem {
   completed: boolean;
   completedOn: Date;
   completedBy: number;
-  content: string;
+  text: string;
   endDate: Date;
 }
 

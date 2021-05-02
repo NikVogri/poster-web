@@ -1,3 +1,4 @@
+import { Banner } from "./banner";
 import { User } from "./user";
 
 export enum PageType {
@@ -7,6 +8,7 @@ export enum PageType {
 export interface Page {
 	id: string;
 	title: string;
+	banner: Banner;
 	content: JSON;
 	private: boolean;
 	owner: User;
