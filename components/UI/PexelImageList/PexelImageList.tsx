@@ -4,16 +4,10 @@ import axios from "axios";
 
 import styles from "./PexelImageList.module.scss";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import { Image } from "../../../interfaces/image";
 
 interface PexelImageListProps {
 	onImageSelect: (image: Image) => void;
-}
-
-interface Image {
-	tiny: string;
-	landscape: string;
-	id: number;
-	photographer: string;
 }
 
 const PexelImageList: React.FC<PexelImageListProps> = ({ onImageSelect }) => {
