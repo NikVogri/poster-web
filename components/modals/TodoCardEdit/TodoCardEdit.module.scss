@@ -1,0 +1,55 @@
+.edit__card {
+	min-height: 35rem;
+	min-width: 50rem;
+	h3 {
+		font-size: 1.5rem;
+		padding: 0.5rem 0;
+		color: var(--text-primary);
+		margin-bottom: 2rem;
+		border-bottom: solid 1px var(--background-primary);
+	}
+	.form__group {
+		margin-bottom: 2.5rem;
+	}
+
+	label {
+		margin-bottom: 0.75em;
+		color: var(--text-secondary);
+	}
+
+	.color {
+		&__container {
+			display: flex;
+			align-items: center;
+			margin-bottom: 2rem;
+
+			input {
+				width: 10%;
+			}
+		}
+		&__example {
+			height: 3.5rem;
+			width: 75%;
+			margin: 0 auto;
+			background-color: red;
+			border-radius: 1rem 1rem 0 0;
+		}
+	}
+
+	.save__button {
+		background-color: var(--color-pop);
+		padding: 1rem 3rem;
+		color: var(--text-primary);
+		border: none;
+		font-size: 1.75rem;
+		border-radius: 0.5rem;
+		cursor: pointer;
+		box-shadow: 0 0.4rem 0.4rem var(--shadow-block);
+
+		transition: all 0.3s ease-in;
+
+		&:hover {
+			background-color: var(--color-pop-hover);
+		}
+	}
+}

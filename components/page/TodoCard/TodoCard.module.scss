@@ -1,29 +1,117 @@
 .todo__card {
-	padding: 1rem;
 	background-color: var(--background-primary);
 	box-shadow: 0rem 0.4rem 0.4rem var(--shadow-block);
 	border-radius: 1rem;
+	overflow: hidden;
 
 	ul {
 		list-style: none;
 	}
 
 	.card {
+		padding: 1rem;
+
+		&__top {
+			background-color: var(--color-pop-hover);
+			height: 3rem;
+			width: 100%;
+
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+
+			padding: 0 0.5rem;
+
+			button {
+				transition: all 0.3s ease-out;
+
+				background: none;
+				border: none;
+				cursor: pointer;
+
+				opacity: 0;
+				pointer-events: none;
+			}
+
+			&:hover {
+				button {
+					opacity: 1;
+					pointer-events: all;
+				}
+			}
+
+			svg {
+				margin-left: auto;
+				fill: var(--text-primary);
+			}
+		}
+
 		&__header {
 			display: flex;
 			align-items: center;
-            justify-content: space-between;
+			justify-content: space-between;
 
-            span {
-                font-size: 1.4rem;
-                font-weight: 600;
-            }
-        }
+			span {
+				font-size: 1.6rem;
+				font-weight: 600;
+			}
+		}
 
 		&__title {
 			padding: 0.5rem 0;
-			font-size: 1.6rem;
-            max-width: 80%;
+			font-size: 1.8rem;
+			max-width: 80%;
+		}
+
+		&__input {
+			form {
+				width: 100%;
+				position: relative;
+			}
+
+			input {
+				background-color: transparent;
+				box-shadow: none;
+				border: none;
+				border-bottom: solid 1px var(--background-card);
+				height: 2rem;
+				margin-bottom: 2rem;
+				padding: 1.5rem 0;
+				outline: none;
+				border-radius: 0;
+				transition: all 0.25s ease-out;
+				font-size: 1.3rem;
+
+				&:focus {
+					border: none;
+					border-bottom: solid 1px var(--color-pop-hover);
+				}
+			}
+
+			i {
+				position: absolute;
+				right: 0rem;
+				top: 1.25rem;
+				background: none;
+				border: none;
+				padding: 0 0.25rem;
+				pointer-events: none;
+				opacity: 0;
+
+				svg {
+					transition: all 0.4s ease-in;
+					fill: var(--color-secondary-900);
+					height: 1.25rem;
+				}
+
+				&.valid.active {
+					pointer-events: all;
+					opacity: 1;
+					svg {
+						fill: var(--color-pop);
+					}
+				}
+			}
 		}
 	}
 }
