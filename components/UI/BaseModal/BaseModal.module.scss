@@ -1,8 +1,13 @@
+@import "../../../styles/components/modal";
+@import "../../../styles/components/modal_button";
+
 .base__modal {
+	@include modal_defaults();
+
 	position: absolute;
 
 	padding: 2rem;
-	background: var(--background-card);
+	background: var(--background-primary);
 	box-shadow: 0 0.4rem 0.4rem var(--shadow-block);
 
 	top: 50%;
@@ -10,10 +15,37 @@
 	transform: translate(-50%, -50%);
 	z-index: 100;
 
+	border-radius: 0.5rem;
+	border: solid 0.2rem var(--horizontal-ruling);
+
 	&.open {
 		display: block;
 	}
+
 	&.closed {
 		display: none;
 	}
+}
+
+.modal__footer {
+	border-top: solid 1px var(--background-card);
+	margin-top: 2rem;
+	padding-top: 2rem;
+
+	.cancel__button {
+		@include modal_secondary_button();
+	}
+
+	.save__button {
+		@include modal_primary_button();
+	}
+}
+
+.modal__header {
+	border-bottom: solid 1px var(--background-card);
+	padding-bottom: 1rem;
+}
+
+.modal__content {
+	padding: 1rem 0;
 }
