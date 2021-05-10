@@ -16,9 +16,12 @@ const ImageListModal: React.FC<ImageListModalProps> = ({
 	handleImageSelect,
 }) => {
 	return (
-		<BaseModal open={openModal} toggleOpen={setOpenModal}>
+		<BaseModal
+			open={openModal}
+			toggleOpen={setOpenModal}
+			header={<h2>Select your banner image</h2>}
+		>
 			<div className={styles.image__list}>
-				<h2>Select your banner image</h2>
 				<p>
 					Images provided by{" "}
 					<a href="https://www.pexels.com">pexels</a>

@@ -1,0 +1,21 @@
+@import "../../../styles/components/modal_button";
+@import "../../../styles/components/modal";
+
+.confirm__button {
+	@include modal_primary_button();
+}
+
+.cancel__button {
+	@include modal_secondary_button();
+}
+
+.create__todo {
+	.todo__container {
+		padding: 1rem 0;
+		list-style: none;
+
+		li {
+			font-size: 1.6rem;
+		}
+	}
+}

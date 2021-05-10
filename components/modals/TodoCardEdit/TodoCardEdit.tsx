@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Todo } from "../../../interfaces/todo";
 import BaseModal from "../../UI/BaseModal/BaseModal";
+import LoadingButton from "../../UI/LoadingButton/LoadingButton";
 
 import styles from "./TodoCardEdit.module.scss";
 
@@ -17,15 +18,35 @@ const TodoCardEdit: React.FC<TodoCardEditProps> = ({
 }) => {
 	const [headerColor, setHeaderColor] = useState("#fff");
 	const [title, setTitle] = useState("");
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		setTitle(todoCard.title);
 	}, []);
 
 	return (
-		<BaseModal open={openModal} toggleOpen={setOpenModal}>
+		<BaseModal
+			open={openModal}
+			toggleOpen={setOpenModal}
+			header={<h3>Edit todo card</h3>}
+			footer={
+				<>
+					<LoadingButton
+						isLoading={loading}
+						className={styles.confirm__button}
+					>
+						Save
+					</LoadingButton>
+					<button
+						className={styles.cancel__button}
+						onClick={() => setOpenModal(false)}
+					>
+						Close
+					</button>
+				</>
+			}
+		>
 			<div className={styles.edit__card}>
-				<h3>Edit todo card</h3>
 				<div className={styles.form__group}>
 					<label>Title</label>
 					<input
@@ -50,7 +71,6 @@ const TodoCardEdit: React.FC<TodoCardEditProps> = ({
 				<div>
 					<label>Sort items list</label>
 				</div>
-				<button className={styles.save__button}>Save</button>
 			</div>
 		</BaseModal>
 	);
