@@ -1,14 +1,22 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, {
+	ChangeEvent,
+	FormEvent,
+	useContext,
+	useEffect,
+	useState,
+} from "react";
 import BaseModal from "../../UI/BaseModal/BaseModal";
 import LoadingButton from "../../UI/LoadingButton/LoadingButton";
 
-import { v4 as uuid } from "uuid";
-
 import styles from "./CreateTodoCardModal.module.scss";
+import ColorSelect from "../../form/ColorSelect/ColorSelect";
+import useApi from "../../hooks/useApi";
+import { PageContext } from "../../context/PageContext";
 
 interface CreateTodoCardModalProps {
 	openModal: boolean;
 	setOpenModal: (open: boolean) => void;
+	todoBlockAdded: (todo: Todo) => void;
 }
 
 interface Todo {
@@ -19,22 +27,28 @@ interface Todo {
 const CreateTodoCardModal: React.FC<CreateTodoCardModalProps> = ({
 	openModal,
 	setOpenModal,
+	todoBlockAdded,
 }) => {
-	const [tasks, setTasks] = useState<Todo[]>([]);
 	const [titleInput, setTitleInput] = useState("");
-	const [taskInput, setTaskInput] = useState("");
-	const [loading, setLoading] = useState(false);
+	const [headerColor, setHeaderColor] = useState("#fa5e5e");
+	const { page } = useContext(PageContext);
 
-	const handleAddTask = (e: FormEvent) => {
-		e.preventDefault();
+	const { api, loading } = useApi();
 
-		const task = {
-			id: uuid(),
-			text: taskInput,
-		};
+	const handleCreateTodoList = async () => {
+		const res = await api(
+			`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/${page.id}/todo/add-todo-block`,
+			"post",
+			true,
+			{
+				title: titleInput,
+				headerColor: headerColor,
+			}
+		);
 
-		setTasks((oldTasks: Todo[]) => [...oldTasks, task]);
-		setTaskInput("");
+		const newTodoItem: Todo = res.todo;
+		todoBlockAdded(newTodoItem);
+		setOpenModal(false);
 	};
 
 	return (
@@ -46,6 +60,7 @@ const CreateTodoCardModal: React.FC<CreateTodoCardModalProps> = ({
 					<LoadingButton
 						isLoading={loading}
 						className={styles.confirm__button}
+						onClick={handleCreateTodoList}
 					>
 						Create
 					</LoadingButton>
@@ -67,6 +82,14 @@ const CreateTodoCardModal: React.FC<CreateTodoCardModalProps> = ({
 						className={styles.form__control}
 						value={titleInput}
 						onChange={(e) => setTitleInput(e.target.value)}
+					/>
+				</div>
+				<div className={styles.form__group}>
+					<label>Header Color</label>
+					<ColorSelect
+						color={headerColor}
+						defaultColor={"#fa5e5e"}
+						onChange={(e) => setHeaderColor(e.target.value)}
 					/>
 				</div>
 			</div>

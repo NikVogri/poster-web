@@ -1,9 +1,14 @@
 import React, { useState } from "react";
+import { Todo } from "../../../interfaces/todo";
 import CreateTodoCardModal from "../../modals/CreateTodoCardModal/CreateTodoCardModal";
 
 import styles from "./AddTodoCard.module.scss";
 
-const AddTodoCard: React.FC = () => {
+interface AddTodoCardProps {
+	todoBlockAdded: (todo: Todo) => void;
+}
+
+const AddTodoCard: React.FC<AddTodoCardProps> = ({ todoBlockAdded }) => {
 	const [modalOpen, setModalOpen] = useState(false);
 
 	return (
@@ -27,6 +32,7 @@ const AddTodoCard: React.FC = () => {
 			<CreateTodoCardModal
 				openModal={modalOpen}
 				setOpenModal={setModalOpen}
+				todoBlockAdded={todoBlockAdded}
 			/>
 		</>
 	);

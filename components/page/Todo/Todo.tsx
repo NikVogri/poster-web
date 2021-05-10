@@ -2,13 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 import { PageContext } from "../../context/PageContext";
 import useApi from "../../hooks/useApi";
 import TodoCard from "../TodoCard/TodoCard";
+import AddTodoCard from "../AddTodoCard/AddTodoCard";
 import LoadingSpinner from "../../UI/LoadingSpinner/LoadingSpinner";
 
 import styles from "./Todo.module.scss";
+import { Todo as TodoInterface } from "../../../interfaces/todo";
 
 const Todo: React.FC = () => {
 	const { page } = useContext(PageContext);
-	const [todoBlocks, setTodoBlocks] = useState([]);
+	const [todoBlocks, setTodoBlocks] = useState<TodoInterface[]>([]);
 	const { api, loading } = useApi();
 
 	useEffect(() => {
@@ -25,6 +27,13 @@ const Todo: React.FC = () => {
 		setTodoBlocks(res);
 	};
 
+	const handleAddTodoBlock = (todo: TodoInterface) => {
+		setTodoBlocks((oldTodoBlocks: TodoInterface[]) => [
+			todo,
+			...oldTodoBlocks,
+		]);
+	};
+
 	return (
 		<>
 			{loading ? (
@@ -39,8 +48,10 @@ const Todo: React.FC = () => {
 							items={todoBlock.items}
 							title={todoBlock.title}
 							id={todoBlock.id}
+							headerColor={todoBlock.headerColor}
 						/>
 					))}
+					<AddTodoCard todoBlockAdded={handleAddTodoBlock} />
 				</div>
 			)}
 		</>

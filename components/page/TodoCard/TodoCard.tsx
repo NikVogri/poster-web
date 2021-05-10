@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { TodoItem } from "../../../interfaces/todo";
 import TodoListItem from "../TodoListItem/TodoListItem";
 import TodoCardEdit from "../../modals/TodoCardEdit/TodoCardEdit";
+
+import axios from "axios";
 
 import styles from "./TodoCard.module.scss";
 
@@ -9,6 +11,7 @@ interface TodoCardProps {
 	title: string;
 	items: TodoItem[];
 	id: string;
+	headerColor: string;
 }
 
 const checkmark = (
@@ -26,7 +29,12 @@ const checkmark = (
 	</svg>
 );
 
-const TodoCard: React.FC<TodoCardProps> = ({ title, items, id }) => {
+const TodoCard: React.FC<TodoCardProps> = ({
+	title,
+	items,
+	id,
+	headerColor,
+}) => {
 	const [completed, setCompleted] = useState(0);
 	const [total, setTotal] = useState(0);
 	const [input, setInput] = useState("");
@@ -48,17 +56,66 @@ const TodoCard: React.FC<TodoCardProps> = ({ title, items, id }) => {
 		setCompleted(items.filter((item: TodoItem) => item.completed).length);
 	}, []);
 
-	const handleAddTask = (e) => {
+	const handleAddTask = (e: FormEvent) => {
 		e.preventDefault();
+
+		const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/`;
+		axios.post(``);
+
 		setInput("");
-		console.log("here");
 		//TODO: add item to list
 	};
+
+	// 	setTodoCards(updatedTodoCardsList);
+	// 	// send api request to add another item to card
+	// };
+
+	// const removeTodoItemHandler = (id: string, removeItemId: string) => {
+	// 	const updatedTodoCardsList = todoCards.map((card: Todo) => {
+	// 		if (card.id === id) {
+	// 			return {
+	// 				...card,
+	// 				items: card.items.filter(
+	// 					(todoItem: TodoItem) => todoItem.id !== removeItemId
+	// 				),
+	// 			};
+	// 		} else {
+	// 			return card;
+	// 		}
+	// 	});
+
+	// 	setTodoCards(updatedTodoCardsList);
+	// 	// send api request to add another item to card
+	// };
+
+	// const toggleTodoItemHandler = (id: string, toggleItemId: string) => {
+	// 	const updatedTodoCardsList = todoCards.map((card: Todo) => {
+	// 		if (card.id === id) {
+	// 			return {
+	// 				...card,
+	// 				items: card.items.map((todoItem: TodoItem) => {
+	// 					if (todoItem.id === toggleItemId) {
+	// 						todoItem.completed = !todoItem.completed;
+	// 					}
+	// 					return todoItem;
+	// 				}),
+	// 			};
+	// 		} else {
+	// 			return card;
+	// 		}
+	// 	});
+
+	// 	setTodoCards(updatedTodoCardsList);
+	// 	// send api request to add another item to card
+	// };
 
 	return (
 		<>
 			<div className={styles.todo__card}>
-				<div className={styles.card__top}>
+				<div
+					className={styles.card__top}
+					style={{ backgroundColor: headerColor }}
+				>
 					<button
 						title="Edit card"
 						onClick={() => setModalOpen(true)}
@@ -124,7 +181,7 @@ const TodoCard: React.FC<TodoCardProps> = ({ title, items, id }) => {
 			<TodoCardEdit
 				openModal={modalOpen}
 				setOpenModal={setModalOpen}
-				todoCard={{ items, id, title }}
+				todoCard={{ items, id, title, headerColor }}
 			/>
 		</>
 	);
