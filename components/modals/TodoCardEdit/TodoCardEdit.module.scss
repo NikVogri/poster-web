@@ -15,23 +15,4 @@
 	.form__group {
 		margin-bottom: 2.5rem;
 	}
-
-	.color {
-		&__container {
-			display: flex;
-			align-items: center;
-			margin-bottom: 2rem;
-
-			input {
-				width: 10%;
-			}
-		}
-		&__example {
-			height: 3.5rem;
-			width: 75%;
-			margin: 0 auto;
-			background-color: red;
-			border-radius: 1rem 1rem 0 0;
-		}
-	}
 }

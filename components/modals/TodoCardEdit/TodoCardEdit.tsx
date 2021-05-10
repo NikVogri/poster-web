@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Todo } from "../../../interfaces/todo";
+import ColorSelect from "../../form/ColorSelect/ColorSelect";
 import BaseModal from "../../UI/BaseModal/BaseModal";
 import LoadingButton from "../../UI/LoadingButton/LoadingButton";
 
@@ -55,21 +56,13 @@ const TodoCardEdit: React.FC<TodoCardEditProps> = ({
 						onChange={(e) => setTitle(e.target.value)}
 					/>
 				</div>
+
 				<div className={styles.color__edit}>
-					<label>Change header color</label>
-					<div className={styles.color__container}>
-						<input
-							type="color"
-							onChange={(e) => setHeaderColor(e.target.value)}
-						/>
-						<div
-							className={styles.color__example}
-							style={{ backgroundColor: headerColor }}
-						></div>
-					</div>
-				</div>
-				<div>
-					<label>Sort items list</label>
+					<label>Header Color</label>
+					<ColorSelect
+						onChange={(e) => setHeaderColor(e.target.value)}
+						color={headerColor}
+					/>
 				</div>
 			</div>
 		</BaseModal>
