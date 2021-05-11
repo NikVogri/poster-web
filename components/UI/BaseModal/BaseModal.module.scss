@@ -25,6 +25,28 @@
 	&.closed {
 		display: none;
 	}
+
+	&.loading {
+		&::before {
+			content: "";
+			height: 100%;
+			width: 100%;
+			position: absolute;
+			z-index: 10;
+			top: 0;
+			left: 0;
+			background-color: rgba(0, 0, 0, 0.35);
+		}
+
+		.modal__spinner {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+
+			z-index: 99;
+		}
+	}
 }
 
 .modal__footer {
