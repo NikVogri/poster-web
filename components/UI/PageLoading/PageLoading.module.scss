@@ -1,0 +1,28 @@
+@import "../../../styles/mixins";
+.page {
+	&__loading {
+		animation: flow_in 0.5s ease;
+		height: calc(100vh - var(--nav-height));
+		width: 100vw;
+		position: absolute;
+		top: 0;
+		left: 0;
+
+		background-color: var(--background-color);
+
+		z-index: 9999;
+	}
+	&__spinner {
+		@include absolute_center();
+	}
+}
+
+@keyframes flow_in {
+	from {
+		opacity: 0%;
+	}
+
+	to {
+		opacity: 100%;
+	}
+}
