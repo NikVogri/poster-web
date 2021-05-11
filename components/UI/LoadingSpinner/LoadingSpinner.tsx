@@ -2,9 +2,13 @@ import React from "react";
 
 interface LoadingSpinnerProps {
 	size: "sm" | "md" | "lg" | "xlg";
+	className?: string;
 }
 
-const LoadingSpinner = ({ size }: LoadingSpinnerProps): JSX.Element => {
+const LoadingSpinner = ({
+	size,
+	className,
+}: LoadingSpinnerProps): JSX.Element => {
 	let height, width;
 
 	switch (size) {
@@ -31,7 +35,7 @@ const LoadingSpinner = ({ size }: LoadingSpinnerProps): JSX.Element => {
 
 	return (
 		<div
-			className="sk-cube-grid"
+			className={`sk-cube-grid ${className}`}
 			style={{ height: `${height}px`, width: `${width}px` }}
 		>
 			<div className="sk-cube sk-cube1"></div>
