@@ -1,12 +1,12 @@
+@import "../../../styles/mixins";
+
 .todo {
 	&__loading {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		& > * {
-			transform: translateY(5rem);
-		}
+		@include absolute_center();
+		background-color: var(--background-primary);
+		padding: 3.75rem;
+		border-radius: 0.5rem;
+		box-shadow: 0rem 0.4rem 0.4rem var(--shadow-block);
 	}
 
 	&__container {

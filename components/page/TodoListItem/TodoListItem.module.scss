@@ -12,12 +12,13 @@
 		background: none;
 		border: none;
 		cursor: pointer;
+		text-align: left;
 
 		.checkmark {
 			transition: all 0.15s ease-out;
 			height: 1.45rem;
 			fill: var(--background-card);
-			margin-right: 0.5rem;
+			margin-right: 1.25rem;
 
 			&.active {
 				fill: var(--color-pop);
@@ -45,7 +46,7 @@
 
 	span {
 		flex: 1;
-		font-size: 1.6rem;
+		font-size: 1.45rem;
 		color: var(--text-secondary);
 	}
 

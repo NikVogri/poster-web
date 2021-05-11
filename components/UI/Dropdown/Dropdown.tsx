@@ -12,7 +12,6 @@ export const DropdownButton = ({ children, toggleDropdown, show }) => {
 
 export const DropdownList = ({ children, show, toggleDropdown }) => {
 	const handleKeyboardPress = (event) => {
-		console.log(event);
 		if (event.key === "Escape") toggleDropdown(false);
 	};
 
