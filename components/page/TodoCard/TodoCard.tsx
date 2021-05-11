@@ -1,17 +1,21 @@
-import React, { FormEvent, useEffect, useRef, useState } from "react";
-import { TodoItem } from "../../../interfaces/todo";
+import React, {
+	FormEvent,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
+import { Todo, TodoItem } from "../../../interfaces/todo";
 import TodoListItem from "../TodoListItem/TodoListItem";
 import TodoCardEdit from "../../modals/TodoCardEdit/TodoCardEdit";
 
 import axios from "axios";
 
 import styles from "./TodoCard.module.scss";
+import { PageContext } from "../../context/PageContext";
 
 interface TodoCardProps {
-	title: string;
-	items: TodoItem[];
-	id: string;
-	headerColor: string;
+	todoBlock: Todo;
 }
 
 const checkmark = (
@@ -29,17 +33,20 @@ const checkmark = (
 	</svg>
 );
 
-const TodoCard: React.FC<TodoCardProps> = ({
-	title,
-	items,
-	id,
-	headerColor,
-}) => {
+const TodoCard: React.FC<TodoCardProps> = ({ todoBlock }) => {
+	const [todo, setTodo] = useState<Todo | null>(todoBlock);
+
+	useEffect(() => {
+		setTodo(todoBlock);
+	}, [JSON.stringify(todoBlock)]);
+
 	const [completed, setCompleted] = useState(0);
 	const [total, setTotal] = useState(0);
 	const [input, setInput] = useState("");
 	const [focused, setFocused] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
+
+	const { page } = useContext(PageContext);
 
 	const addInput = useRef(null);
 
@@ -52,8 +59,10 @@ const TodoCard: React.FC<TodoCardProps> = ({
 	};
 
 	useEffect(() => {
-		setTotal(items.length);
-		setCompleted(items.filter((item: TodoItem) => item.completed).length);
+		setTotal(todo.items.length);
+		setCompleted(
+			todo.items.filter((item: TodoItem) => item.completed).length
+		);
 	}, []);
 
 	const handleAddTask = (e: FormEvent) => {
@@ -114,7 +123,7 @@ const TodoCard: React.FC<TodoCardProps> = ({
 			<div className={styles.todo__card}>
 				<div
 					className={styles.card__top}
-					style={{ backgroundColor: headerColor }}
+					style={{ backgroundColor: todo.headerColor }}
 				>
 					<button
 						title="Edit card"
@@ -146,7 +155,7 @@ const TodoCard: React.FC<TodoCardProps> = ({
 				</div>
 				<div className={styles.card}>
 					<div className={styles.card__header}>
-						<h3 className={styles.card__title}>{title}</h3>
+						<h3 className={styles.card__title}>{todo.title}</h3>
 						<span>
 							{completed} / {total}
 						</span>
@@ -172,17 +181,21 @@ const TodoCard: React.FC<TodoCardProps> = ({
 						</form>
 					</div>
 					<ul>
-						{items.map((item: TodoItem) => (
+						{todo.items.map((item: TodoItem) => (
 							<TodoListItem key={item.id} todoItem={item} />
 						))}
 					</ul>
 				</div>
 			</div>
-			<TodoCardEdit
-				openModal={modalOpen}
-				setOpenModal={setModalOpen}
-				todoCard={{ items, id, title, headerColor }}
-			/>
+			{modalOpen && (
+				<TodoCardEdit
+					openModal={modalOpen}
+					setOpenModal={setModalOpen}
+					todoCard={todo}
+					page={page}
+					handleCardUpdate={(todo: Todo) => setTodo(todo)}
+				/>
+			)}
 		</>
 	);
 };
