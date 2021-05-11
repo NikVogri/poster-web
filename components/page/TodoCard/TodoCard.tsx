@@ -13,6 +13,7 @@ import axios from "axios";
 
 import styles from "./TodoCard.module.scss";
 import { PageContext } from "../../context/PageContext";
+import useApi from "../../hooks/useApi";
 
 interface TodoCardProps {
 	todoBlock: Todo;
@@ -46,6 +47,8 @@ const TodoCard: React.FC<TodoCardProps> = ({ todoBlock }) => {
 	const [focused, setFocused] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
 
+	const { api, loading } = useApi();
+
 	const { page } = useContext(PageContext);
 
 	const addInput = useRef(null);
@@ -65,59 +68,44 @@ const TodoCard: React.FC<TodoCardProps> = ({ todoBlock }) => {
 		);
 	}, []);
 
-	const handleAddTask = (e: FormEvent) => {
+	const handleAddTask = async (e: FormEvent) => {
 		e.preventDefault();
 
-		const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/`;
-		axios.post(``);
+		const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/${page.id}/todos/${todo.id}/task`;
+		const res = await api(url, "post", true, {
+			text: input,
+		});
 
 		setInput("");
-		//TODO: add item to list
+
+		setTodo((oldTodoItem: Todo) => ({
+			...oldTodoItem,
+			items: [res.todoItem, ...oldTodoItem.items],
+		}));
 	};
 
-	// 	setTodoCards(updatedTodoCardsList);
-	// 	// send api request to add another item to card
-	// };
+	//TODO: ADD LOADING STATE TO CARD
 
-	// const removeTodoItemHandler = (id: string, removeItemId: string) => {
-	// 	const updatedTodoCardsList = todoCards.map((card: Todo) => {
-	// 		if (card.id === id) {
-	// 			return {
-	// 				...card,
-	// 				items: card.items.filter(
-	// 					(todoItem: TodoItem) => todoItem.id !== removeItemId
-	// 				),
-	// 			};
-	// 		} else {
-	// 			return card;
-	// 		}
-	// 	});
+	const sortTasks = (tasks: TodoItem[]): TodoItem[] => {
+		const completedTasks = tasks.filter((todo: TodoItem) => todo.completed);
+		const uncompletedTasks = tasks.filter(
+			(todo: TodoItem) => !todo.completed
+		);
 
-	// 	setTodoCards(updatedTodoCardsList);
-	// 	// send api request to add another item to card
-	// };
+		completedTasks.sort(
+			(a: TodoItem, b: TodoItem) =>
+				new Date(b.updatedAt).getTime() -
+				new Date(a.updatedAt).getTime()
+		);
 
-	// const toggleTodoItemHandler = (id: string, toggleItemId: string) => {
-	// 	const updatedTodoCardsList = todoCards.map((card: Todo) => {
-	// 		if (card.id === id) {
-	// 			return {
-	// 				...card,
-	// 				items: card.items.map((todoItem: TodoItem) => {
-	// 					if (todoItem.id === toggleItemId) {
-	// 						todoItem.completed = !todoItem.completed;
-	// 					}
-	// 					return todoItem;
-	// 				}),
-	// 			};
-	// 		} else {
-	// 			return card;
-	// 		}
-	// 	});
+		uncompletedTasks.sort(
+			(a: TodoItem, b: TodoItem) =>
+				new Date(b.updatedAt).getTime() -
+				new Date(a.updatedAt).getTime()
+		);
 
-	// 	setTodoCards(updatedTodoCardsList);
-	// 	// send api request to add another item to card
-	// };
-
+		return [...uncompletedTasks, ...completedTasks];
+	};
 	return (
 		<>
 			<div className={styles.todo__card}>
@@ -181,8 +169,12 @@ const TodoCard: React.FC<TodoCardProps> = ({ todoBlock }) => {
 						</form>
 					</div>
 					<ul>
-						{todo.items.map((item: TodoItem) => (
-							<TodoListItem key={item.id} todoItem={item} />
+						{sortTasks(todo.items).map((item: TodoItem) => (
+							<TodoListItem
+								key={item.id}
+								todoItem={item}
+								todoBlockId={todo.id}
+							/>
 						))}
 					</ul>
 				</div>
