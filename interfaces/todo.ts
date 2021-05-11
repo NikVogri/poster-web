@@ -1,8 +1,8 @@
 export interface TodoItem {
 	id: string;
 	completed: boolean;
-	completedOn: Date;
-	completedBy: number;
+	updatedAt: Date;
+	createdAt: Date;
 	text: string;
 	endDate: Date;
 }
@@ -12,4 +12,10 @@ export interface Todo {
 	title: string;
 	headerColor: string;
 	items: TodoItem[];
+}
+
+export enum TodoItemUpdate {
+	REMOVE = "remove",
+	COMPLETE = "complete",
+	UNCOMPLETE = "uncomplete",
 }
