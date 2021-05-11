@@ -37,7 +37,7 @@ const CreateTodoCardModal: React.FC<CreateTodoCardModalProps> = ({
 
 	const handleCreateTodoList = async () => {
 		const res = await api(
-			`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/${page.id}/todo/add-todo-block`,
+			`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pages/${page.id}/todos`,
 			"post",
 			true,
 			{
