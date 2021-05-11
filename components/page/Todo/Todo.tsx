@@ -43,13 +43,7 @@ const Todo: React.FC = () => {
 			) : (
 				<div className={styles.todo__container}>
 					{todoBlocks.map((todoBlock) => (
-						<TodoCard
-							key={todoBlock.id}
-							items={todoBlock.items}
-							title={todoBlock.title}
-							id={todoBlock.id}
-							headerColor={todoBlock.headerColor}
-						/>
+						<TodoCard key={todoBlock.id} todoBlock={todoBlock} />
 					))}
 					<AddTodoCard todoBlockAdded={handleAddTodoBlock} />
 				</div>

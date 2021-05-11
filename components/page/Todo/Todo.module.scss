@@ -1,18 +1,19 @@
 .todo {
-    &__loading {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+	&__loading {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
-        & > * {
-            transform: translateY(5rem);
-        }
-    }
+		& > * {
+			transform: translateY(5rem);
+		}
+	}
 
-    &__container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, 32%);
-        row-gap: 3rem;
-        column-gap: 2%;
-    }
+	&__container {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, 32%);
+		grid-auto-rows: minmax(15rem, 1fr);
+		row-gap: 3rem;
+		column-gap: 2%;
+	}
 }
