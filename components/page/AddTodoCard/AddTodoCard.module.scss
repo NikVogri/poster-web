@@ -5,7 +5,7 @@
 	border-radius: 1rem;
 	overflow: hidden;
 
-    border: none;
+	border: none;
 
 	display: flex;
 	justify-content: center;
@@ -14,12 +14,12 @@
 	box-shadow: 0rem 0.4rem 0.4rem var(--shadow-block);
 
 	transition: all 0.35s;
-    cursor: pointer;
+	cursor: pointer;
 
 	& svg {
 		fill: var(--background-card);
-        height: 5rem;
-        width: 5rem;
+		height: 5rem;
+		width: 5rem;
 	}
 
 	&:hover {

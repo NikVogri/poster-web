@@ -32,7 +32,7 @@ const AddTodoCard: React.FC<AddTodoCardProps> = ({ todoBlockAdded }) => {
 			<CreateTodoCardModal
 				openModal={modalOpen}
 				setOpenModal={setModalOpen}
-				todoBlockAdded={todoBlockAdded}
+				todoBlockAdded={todoBlockAdded as any}
 			/>
 		</>
 	);
