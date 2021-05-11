@@ -22,7 +22,7 @@ const useApi = () => {
 					data,
 					withCredentials: useCredentials,
 				});
-				console.log(res)
+				console.log(res);
 				setLoading(false);
 				setData(res.data);
 				resolve(res.data);
@@ -34,7 +34,6 @@ const useApi = () => {
 		});
 	};
 
-	console.log(loading);
 	return { data, loading, api };
 };
 

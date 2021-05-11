@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { AuthContext } from "../../components/context/AuthContext";
-import PageLoading from "../page/PageLoading";
+import PageLoading from "../UI/PageLoading/PageLoading";
 
 import { isServer } from "../../helpers/isServer";
 import PageError from "../page/PageError";

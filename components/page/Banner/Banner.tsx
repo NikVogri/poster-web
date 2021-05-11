@@ -36,7 +36,6 @@ const Banner: React.FC = () => {
 	const { api, loading } = useApi();
 
 	useEffect(() => {
-		console.log(page);
 		if (page.type === PageType.Notebook) {
 			if (notebook.banner.url) {
 				setBackgroundImage(notebook.banner.url);

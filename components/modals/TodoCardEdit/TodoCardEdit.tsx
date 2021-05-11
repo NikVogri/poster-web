@@ -45,7 +45,6 @@ const TodoCardEdit: React.FC<TodoCardEditProps> = ({
 			}
 		);
 
-		console.log(res);
 		handleCardUpdate(res.todoBlock);
 		setOpenModal(false);
 	};
