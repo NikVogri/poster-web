@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { TodoItem, TodoItemUpdate } from "../../../interfaces/todo";
+import { Todo, TodoItem, TodoItemUpdate } from "../../../interfaces/todo";
 import { PageContext } from "../../context/PageContext";
+import { TodoContext } from "../../context/TodoContext";
 import useApi from "../../hooks/useApi";
 
 import styles from "./TodoListItem.module.scss";
@@ -14,8 +15,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 	todoItem,
 	todoBlockId,
 }) => {
-	const [task, setTask] = useState<TodoItem>(todoItem);
 	const { page } = useContext(PageContext);
+	const { fetchSingleTodo, updateSingleTodo } = useContext(TodoContext);
 
 	const { api, loading } = useApi();
 
@@ -28,21 +29,37 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 			taskId: todoItem.id,
 		});
 
-		setTask(res.todoItem);
+		const todo: Todo = fetchSingleTodo(todoBlockId);
+
+		if (updateType === TodoItemUpdate.REMOVE) {
+			const indexToRemove = todo.items.findIndex(
+				(task: TodoItem) => task.id === todoItem.id
+			);
+
+			todo.items.splice(indexToRemove, 1);
+		} else {
+			todo.items = todo.items.map((task: TodoItem) =>
+				task.id === todoItem.id ? res.todoItem : task
+			);
+		}
+
+		updateSingleTodo(todoBlockId, todo);
 	};
 
-	if (!task) return <></>;
+	if (!todoItem) return <></>;
 
 	return (
 		<li className={styles.todo__card}>
 			<button
 				className={styles.todo__content}
-				title={`Mark as ${task.completed ? "uncomplete" : "complete"}`}
+				title={`Mark as ${
+					todoItem.completed ? "uncomplete" : "complete"
+				}`}
 				type="button"
 				onClick={() =>
 					handleTodoTaskUpdate(
 						TodoItemUpdate[
-							task.completed ? "UNCOMPLETE" : "COMPLETE"
+							todoItem.completed ? "UNCOMPLETE" : "COMPLETE"
 						]
 					)
 				}
@@ -54,14 +71,14 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
 					data-icon="check"
 					className={`svg-inline--fa fa-check fa-w-16 ${
 						styles.checkmark
-					} ${task.completed ? styles.active : ""}`}
+					} ${todoItem.completed ? styles.active : ""}`}
 					role="img"
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 512 512"
 				>
 					<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path>
 				</svg>
-				<span>{task.text}</span>
+				<span>{todoItem.text}</span>
 			</button>
 
 			<button
