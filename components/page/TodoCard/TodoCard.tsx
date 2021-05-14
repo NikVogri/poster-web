@@ -9,11 +9,10 @@ import { Todo, TodoItem } from "../../../interfaces/todo";
 import TodoListItem from "../TodoListItem/TodoListItem";
 import TodoCardEdit from "../../modals/TodoCardEdit/TodoCardEdit";
 
-import axios from "axios";
-
 import styles from "./TodoCard.module.scss";
 import { PageContext } from "../../context/PageContext";
 import useApi from "../../hooks/useApi";
+import { TodoContext } from "../../context/TodoContext";
 
 interface TodoCardProps {
 	todoBlock: Todo;
@@ -35,23 +34,23 @@ const checkmark = (
 );
 
 const TodoCard: React.FC<TodoCardProps> = ({ todoBlock }) => {
+	const { page } = useContext(PageContext);
+	const { updateSingleTodo } = useContext(TodoContext);
+
 	const [todo, setTodo] = useState<Todo | null>(todoBlock);
-
-	useEffect(() => {
-		setTodo(todoBlock);
-	}, [JSON.stringify(todoBlock)]);
-
 	const [completed, setCompleted] = useState(0);
 	const [total, setTotal] = useState(0);
 	const [input, setInput] = useState("");
 	const [focused, setFocused] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
 
-	const { api, loading } = useApi();
-
-	const { page } = useContext(PageContext);
-
 	const addInput = useRef(null);
+
+	useEffect(() => {
+		setTodo(todoBlock);
+	}, [JSON.stringify(todoBlock)]);
+
+	const { api } = useApi();
 
 	const handleFocusEvent = (isFocused: boolean) => {
 		if (!isFocused) {
@@ -62,11 +61,12 @@ const TodoCard: React.FC<TodoCardProps> = ({ todoBlock }) => {
 	};
 
 	useEffect(() => {
+		console.log(todo.items);
 		setTotal(todo.items.length);
 		setCompleted(
 			todo.items.filter((item: TodoItem) => item.completed).length
 		);
-	}, []);
+	}, [JSON.stringify(todo.items)]);
 
 	const handleAddTask = async (e: FormEvent) => {
 		e.preventDefault();
@@ -78,10 +78,10 @@ const TodoCard: React.FC<TodoCardProps> = ({ todoBlock }) => {
 
 		setInput("");
 
-		setTodo((oldTodoItem: Todo) => ({
-			...oldTodoItem,
-			items: [res.todoItem, ...oldTodoItem.items],
-		}));
+		updateSingleTodo(todo.id, {
+			...todo,
+			items: [res.todoItem, ...todo.items],
+		});
 	};
 
 	//TODO: ADD LOADING STATE TO CARD
@@ -106,6 +106,9 @@ const TodoCard: React.FC<TodoCardProps> = ({ todoBlock }) => {
 
 		return [...uncompletedTasks, ...completedTasks];
 	};
+
+	if (!todo) return <></>;
+
 	return (
 		<>
 			<div className={styles.todo__card}>
@@ -185,7 +188,6 @@ const TodoCard: React.FC<TodoCardProps> = ({ todoBlock }) => {
 					setOpenModal={setModalOpen}
 					todoCard={todo}
 					page={page}
-					handleCardUpdate={(todo: Todo) => setTodo(todo)}
 				/>
 			)}
 		</>
