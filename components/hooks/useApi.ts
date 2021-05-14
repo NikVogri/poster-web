@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { responseErrorHandler } from "../../helpers/responseErrorHandler";
+import { rejects } from "assert";
 
 const useApi = () => {
 	const [data, setData] = useState(null);
@@ -22,7 +23,6 @@ const useApi = () => {
 					data,
 					withCredentials: useCredentials,
 				});
-				console.log(res);
 				setLoading(false);
 				setData(res.data);
 				resolve(res.data);
@@ -30,6 +30,7 @@ const useApi = () => {
 				setLoading(false);
 				setData(null);
 				responseErrorHandler(err);
+				resolve(err);
 			}
 		});
 	};
