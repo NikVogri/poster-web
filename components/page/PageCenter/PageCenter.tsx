@@ -12,7 +12,8 @@ export const PageCenter: React.FC = () => {
 
 	return (
 		<main className={`${styles.page__center} card`}>
-			{page?.banner?.active && <Banner />}
+			{/* {page?.banner?.active && <Banner />} TODO: uncomment this and remove below line*/}
+			<Banner />
 			{page.type === PageType.Todo && <Todo />}
 			{page.type === PageType.Notebook && <Notebook />}
 		</main>
