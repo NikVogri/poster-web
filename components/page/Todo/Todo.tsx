@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import LoadingSpinner from "../../UI/LoadingSpinner/LoadingSpinner";
 import AddTodoCard from "../AddTodoCard/AddTodoCard";
 import TodoCard from "../TodoCard/TodoCard";

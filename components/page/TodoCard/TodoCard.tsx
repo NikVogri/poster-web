@@ -61,7 +61,6 @@ const TodoCard: React.FC<TodoCardProps> = ({ todoBlock }) => {
 	};
 
 	useEffect(() => {
-		console.log(todo.items);
 		setTotal(todo.items.length);
 		setCompleted(
 			todo.items.filter((item: TodoItem) => item.completed).length
