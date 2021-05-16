@@ -61,6 +61,7 @@ const CreateTodoCardModal: React.FC<CreateTodoCardModalProps> = ({
 						isLoading={loading}
 						className={styles.confirm__button}
 						onClick={handleCreateTodoList}
+						disabled={!titleInput}
 					>
 						Create
 					</LoadingButton>
@@ -82,6 +83,7 @@ const CreateTodoCardModal: React.FC<CreateTodoCardModalProps> = ({
 						className={styles.form__control}
 						value={titleInput}
 						onChange={(e) => setTitleInput(e.target.value)}
+						required
 					/>
 				</div>
 				<div className={styles.form__group}>
