@@ -29,11 +29,13 @@ const AddTodoCard: React.FC<AddTodoCardProps> = ({ todoBlockAdded }) => {
 					</g>
 				</svg>
 			</button>
-			<CreateTodoCardModal
-				openModal={modalOpen}
-				setOpenModal={setModalOpen}
-				todoBlockAdded={todoBlockAdded as any}
-			/>
+			{modalOpen && (
+				<CreateTodoCardModal
+					openModal={modalOpen}
+					setOpenModal={setModalOpen}
+					todoBlockAdded={todoBlockAdded as any}
+				/>
+			)}
 		</>
 	);
 };
