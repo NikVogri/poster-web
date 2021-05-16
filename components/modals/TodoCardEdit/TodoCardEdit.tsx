@@ -1,6 +1,7 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { Page } from "../../../interfaces/page";
 import { Todo } from "../../../interfaces/todo";
+import { TodoContext } from "../../context/TodoContext";
 import ColorSelect from "../../form/ColorSelect/ColorSelect";
 import useApi from "../../hooks/useApi";
 import BaseModal from "../../UI/BaseModal/BaseModal";
@@ -12,7 +13,6 @@ import styles from "./TodoCardEdit.module.scss";
 interface TodoCardEditProps {
 	openModal: boolean;
 	setOpenModal: (open: boolean) => void;
-	handleCardUpdate: (todoCard?: Todo) => void;
 	todoCard: Todo;
 	page: Page;
 }
@@ -20,10 +20,11 @@ interface TodoCardEditProps {
 const TodoCardEdit: React.FC<TodoCardEditProps> = ({
 	openModal,
 	setOpenModal,
-	handleCardUpdate,
 	todoCard,
 	page,
 }) => {
+	const { updateSingleTodo, todos, setTodos } = useContext(TodoContext);
+
 	const [selectedHeaderColor, setSelectedHeaderColor] = useState(
 		todoCard.headerColor
 	);
@@ -48,7 +49,7 @@ const TodoCardEdit: React.FC<TodoCardEditProps> = ({
 		);
 
 		if (res.success) {
-			handleCardUpdate(res.todoBlock);
+			updateSingleTodo(todoCard.id, res.todoBlock);
 		}
 
 		setOpenModal(false);
@@ -62,10 +63,10 @@ const TodoCardEdit: React.FC<TodoCardEditProps> = ({
 		);
 
 		if (res.success) {
-			handleCardUpdate(null);
+			setTodos((oldTodos: Todo[]) =>
+				oldTodos.filter((oldTodo: Todo) => oldTodo.id !== todoCard.id)
+			);
 		}
-
-		setOpenModal(false);
 	};
 
 	return (
