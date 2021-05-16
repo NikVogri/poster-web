@@ -13,6 +13,11 @@
 	&:hover {
 		background-color: var(--color-pop-hover);
 	}
+
+	&:disabled {
+		opacity: 0.25;
+		cursor: not-allowed;
+	}
 }
 
 @mixin modal_secondary_button {
